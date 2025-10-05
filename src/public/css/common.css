@@ -1,0 +1,134 @@
+
+.header {
+background: #000;
+width: 100%;
+}
+
+.header__inner {
+margin: 0 auto;
+padding: 20px 15px;
+max-width: 1230px;
+}
+
+.header-utilities {
+display: flex;
+justify-content: space-between;
+align-items: center;
+flex-wrap: nowrap;
+gap: 20px;
+}
+
+.header__logo {
+display: block;
+flex-shrink: 0;
+}
+
+.header-search {
+flex-grow: 1;
+margin: 0 20px;
+}
+
+.search-input {
+padding: 6px 12px;
+border-radius: 4px;
+width: 100%;
+max-width: 420px;
+height: 50px;
+border: 1px solid #ccc;
+}
+
+.header-utilities nav {
+flex-shrink: 0;
+}
+
+.header-nav {
+display: flex;
+align-items: center;
+gap: 40px;
+flex-wrap: nowrap;
+}
+
+.header-nav__link--mypage,
+.header-nav__link--login {
+color: #fff;
+text-decoration: none;
+font-size: 16px;
+display: inline-block;
+padding: 10px 16px;
+vertical-align: middle;
+}
+
+.header-nav__button {
+border: none;
+background: transparent;
+color: #fff;
+width: 150px;
+height: 40px;
+font-size: 16px;
+cursor: pointer;
+}
+
+.header-nav__link--listing {
+background-color: white;
+color: #000;
+border-radius: 6px;
+padding: 10px 16px;
+font-weight: bold;
+font-size: 20px;
+display: inline-block;
+cursor: pointer;
+vertical-align: middle;
+}
+
+/* PC対応（1400px〜1540px） */
+@media (min-width: 1400px) and (max-width: 1540px) {
+    .header-utilities {
+    flex-wrap: nowrap;
+    }
+
+    .search-input {
+    max-width: 420px;
+    }
+
+    .header-nav {
+    gap: 48px;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 850px) {
+    .header-utilities {
+        flex-direction: row;
+        align-items: center;
+        flex-wrap: nowrap;
+        gap: 20px;
+    }
+
+    .header__logo img {
+        width: 120px;
+        height: auto;
+    }
+
+    .header-search {
+        flex-grow: 1;
+        margin: 0 20px;
+    }
+
+    .search-input {
+        width: 100%;
+        max-width: 360px;
+    }
+
+    .header-nav {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 24px;
+        flex-wrap: nowrap;
+    }
+
+    .header-nav__link--listing {
+        font-size: 18px;
+        width: auto;
+        text-align: left;
+    }
+}
