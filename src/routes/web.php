@@ -2,6 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\Auth\VerificationController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -14,9 +17,21 @@ use App\Http\Controllers\AuthController;
 |
 */
 
-
-Route::get('/', [AuthController::class, 'index']);
-
-Route::middleware('auth')->group(function () {
-    Route::get('/', [AuthController::class, 'index']);
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/', [AuthController::class, 'index'])->name('index');
 });
+
+Route::post('/login', [UserController::class, 'login'])->name('login');
+Route::post('/register', [UserController::class, 'register']);
+
+Route::get('/email/verify', [VerificationController::class, 'show'])
+    ->middleware('auth')
+    ->name('verification.notice');
+
+Route::get('/email/verify/{id}/{hash}', [VerificationController::class, 'verify'])
+    ->middleware(['auth', 'signed', 'throttle:6,1'])
+    ->name('verification.verify');
+
+Route::post('/email/resend', [VerificationController::class, 'resend'])
+    ->middleware(['auth', 'throttle:6,1'])
+    ->name('verification.resend');
