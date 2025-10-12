@@ -10,11 +10,18 @@ services:
             - ./src:/var/www/
         depends_on:
             - php
+        networks:
+            - laravel
 
     php:
         build: ./docker/php
         volumes:
             - ./src:/var/www/
+        depends_on:
+            - mailhog
+            - mysql
+        networks:
+            - laravel
 
     mysql:
         platform: linux/x86_64
@@ -29,6 +36,8 @@ services:
         volumes:
             - ./docker/mysql/data:/var/lib/mysql
             - ./docker/mysql/my.cnf:/etc/mysql/conf.d/my.cnf
+        networks:
+            - laravel
 
     phpmyadmin:
         image: phpmyadmin/phpmyadmin
@@ -41,3 +50,18 @@ services:
             - mysql
         ports:
             - 8080:80
+        networks:
+            - laravel
+
+    mailhog:
+        image: mailhog/mailhog
+        container_name: mailhog
+        ports:
+            - "8025:8025"
+            - "1025:1025"
+        networks:
+            - laravel
+
+networks:
+  laravel:
+    driver: bridge

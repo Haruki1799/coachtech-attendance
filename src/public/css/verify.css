@@ -1,0 +1,57 @@
+.verify__content {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 100px;
+}
+
+.verify__heading h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+
+.verify__alert {
+    margin-top: 20px;
+    color: green;
+    text-align: center;
+}
+
+.verify__actions {
+    margin-top: 30px;
+    text-align: center;
+}
+
+.verify__button-link {
+    display: inline-block;
+    margin-top: 20px;
+    background-color: gray;
+    color: black;
+    padding: 10px 20px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: bold;
+    border: none;
+    transition: background-color 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.verify__actions form {
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+}
+
+.verify__button {
+    background: none;
+    border: none;
+    color: blue;
+    font-weight: bold;
+    padding: 0;
+    margin: 30pt;
+    cursor: pointer;
+    text-decoration: underline;
+    text-decoration: none;
+}
+

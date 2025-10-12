@@ -11,7 +11,7 @@
 
 .form {
     margin: 0 auto;
-    width: 25%;
+    width: 40%;
     text-align: center;
 }
 
@@ -49,14 +49,20 @@
     height: 50px;
     border: none;
     border-radius: 3px;
-    background:red;
+    background:black;
     color: #fff;
+    font-size: 14pt;
     cursor: pointer;
 }
 
 .register__link {
     margin-top: 20px;
     text-align: center;
+}
+
+.register__button-submit {
+    text-decoration: none;
+    color: blue;
 }
 
 /* PC対応（1400px〜1540px） */
@@ -66,25 +72,3 @@
     }
 }
 
-/* タブレット対応（768px〜850px） */
-@media (min-width: 768px) and (max-width: 850px) {
-    .form {
-        width: 80%;
-    }
-
-    .form__group-title,
-    .form__error {
-        text-align: left;
-        font-size: 14px;
-    }
-
-    .form__input--text input {
-        height: 38px;
-        font-size: 16px;
-    }
-
-    .form__button-submit {
-        height: 45px;
-        font-size: 16px;
-    }
-}

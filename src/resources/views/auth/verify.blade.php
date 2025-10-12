@@ -1,30 +1,35 @@
 @extends('layouts.app')
 
+@section('css')
+<link rel="stylesheet" href="{{ asset('css/verify.css') }}">
+@endsection
+
+@section('hide-nav')
+@endsection
+
 @section('content')
-<div class="container" style="max-width: 600px; margin: auto; padding: 2rem;">
-    <h2>メール認証のお願い</h2>
+<div class="verify__content">
+    <div class="verify__heading">
+        <h2>登録していメールアドレスに認証メールを送信しました。<br>
+                メール認証を完了してください。</h2>
+    </div>
 
     @if (session('resent'))
-    <div class="alert alert-success" role="alert">
-        認証メールを再送しました。
+    <div class="verify__alert">
+        <p>認証メールを再送しました。</p>
     </div>
     @endif
 
-    <p>登録したメールアドレスに認証リンクを送信しました。<br>
-        メールを確認し、リンクをクリックして認証を完了してください。</p>
+    <div class="verify__actions">
 
-    <p>メールが届いていない場合は、以下のボタンから再送できます。</p>
-
-    <form method="POST" action="{{ route('verification.resend') }}">
-        @csrf
-        <button type="submit" class="btn btn-primary">認証メールを再送する</button>
-    </form>
-
-    <hr>
-
-    <form method="POST" action="{{ route('logout') }}">
-        @csrf
-        <button type="submit" class="btn btn-link">ログアウトして戻る</button>
-    </form>
+        <a href="http://localhost:8025/#" target="_blank" class="verify__button-link">
+            認証はこちらから
+        </a>
+        
+        <form method="POST" action="{{ route('verification.resend') }}">
+            @csrf
+            <button type="submit" class="verify__button">認証メールを再送する</button>
+        </form>
+    </div>
 </div>
 @endsection
