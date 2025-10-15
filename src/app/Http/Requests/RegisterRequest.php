@@ -44,8 +44,10 @@ class RegisterRequest extends FormRequest
     public function withValidator($validator)
     {
         $validator->after(function ($validator) {
-            if ($this->password !== $this->password_confirmation) {
-                $validator->errors()->add('password_confirmation', 'パスワードと一致しません');
+            if ($this->filled('password') && $this->filled('password_confirmation')) {
+                if ($this->password !== $this->password_confirmation) {
+                    $validator->errors()->add('password_confirmation', 'パスワードと一致しません');
+                }
             }
         });
     }
