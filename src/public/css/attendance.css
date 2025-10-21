@@ -1,0 +1,103 @@
+/* 全体レイアウト */
+html,
+body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: 'Helvetica Neue', 'Arial', sans-serif;
+    background-color: #f9f9f9;
+}
+
+/* 勤怠画面の中央配置と余白 */
+.container {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 30px;
+    box-sizing: border-box;
+    background-color: #ffffff;
+}
+
+/* ステータス表示ボタン */
+.status {
+    font-size: 18px;
+    font-weight: bold;
+    padding: 10px 20px;
+    margin-bottom: 30px;
+    border-radius: 18px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+}
+
+/* 日付と時間表示 */
+.date {
+    font-size: 24px;
+    margin-bottom: 16px;
+}
+
+.time {
+    font-size: 48px;
+    font-weight: bold;
+    margin-bottom: 24px;
+}
+
+/* メッセージ表示 */
+.message {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    margin-top: 12px;
+}
+
+/* ボタン横並び用コンテナ */
+.button-group {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+/* ボタン共通スタイル */
+.btn-attendance-start,
+.btn-attendance-end,
+.btn-break-start,
+.btn-break-end {
+    padding: 10px 24px;
+    min-width: 140px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 12px;
+    cursor: pointer;
+    text-align: center;
+    transition: background-color 0.2s ease;
+}
+
+/* 出勤・退勤ボタン */
+.btn-attendance-start,
+.btn-attendance-end {
+    background-color: #333;
+    color: #fff;
+    border: none;
+}
+
+.btn-attendance-start:hover,
+.btn-attendance-end:hover {
+    background-color: #555;
+}
+
+/* 休憩入・戻ボタン */
+.btn-break-start,
+.btn-break-end {
+    background-color: #FFFFFF;
+    color: #333;
+    border: none;
+}
+
+.btn-break-start:hover,
+.btn-break-end:hover {
+    background-color: #f5f5f5;
+}

@@ -17,7 +17,7 @@ class VerificationController extends Controller
     {
         $request->fulfill();
 
-        return redirect()->route('index')->with('verified', true);
+        return redirect()->route('attendance')->with('verified', true);
     }
 
     public function resend(Request $request)
