@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\AttendanceController;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Auth\VerificationController;
 
 
@@ -17,12 +19,24 @@ use App\Http\Controllers\Auth\VerificationController;
 |
 */
 
+
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/', [AuthController::class, 'index'])->name('index');
+    Route::get('/attendance', [AttendanceController::class, 'index'])->name('attendance');
+    Route::post('/attendance/clockin', [AttendanceController::class, 'clockin'])->name('attendance.clockin');
+    Route::post('/attendance/clockout', [AttendanceController::class, 'clockout'])->name('attendance.clockout');
+    Route::post('/attendance/breakin', [AttendanceController::class, 'breakin'])->name('attendance.breakin');
+    Route::post('/attendance/breakout', [AttendanceController::class, 'breakout'])->name('attendance.breakout');
 });
 
 Route::post('/login', [UserController::class, 'login'])->name('login');
 Route::post('/register', [UserController::class, 'register']);
+
+Route::post('/logout', function () {
+    Auth::logout();
+    request()->session()->invalidate();
+    request()->session()->regenerateToken();
+    return redirect('/login');
+})->name('logout');
 
 Route::get('/email/verify', [VerificationController::class, 'show'])
     ->middleware('auth')

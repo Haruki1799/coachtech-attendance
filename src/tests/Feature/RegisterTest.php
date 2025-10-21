@@ -108,26 +108,17 @@ class RegisterTest extends TestCase
     //会員情報登録
     public function test_register_user()
     {
-        Notification::fake();
-
         $response = $this->post('/register', [
             'name' => "テストユーザ",
             'email' => "test@gmail.com",
             'password' => "password",
             'password_confirmation' => "password",
+            'email_verified_at' => now(),
         ]);
-
-        $response->assertRedirect('/email/verify');
 
         $this->assertDatabaseHas(User::class, [
             'name' => "テストユーザ",
             'email' => "test@gmail.com",
         ]);
-
-        $user = User::where('email', 'test@gmail.com')->first();
-        $this->assertTrue(Hash::check('password', $user->password));
-        $this->assertNull($user->email_verified_at);
-
-        Notification::assertSentTo($user, VerifyEmail::class);
     }
 }

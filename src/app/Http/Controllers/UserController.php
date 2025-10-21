@@ -25,7 +25,7 @@ class UserController extends Controller
                     ->withErrors(['email' => 'メール認証が必要です。']);
             }
 
-            return redirect()->route('index');
+            return redirect()->route('attendance');
         }
 
         return back()->withErrors([
@@ -46,6 +46,6 @@ class UserController extends Controller
 
         auth()->login($user);
 
-        return redirect()->route('index');
+        return redirect()->route('verification.notice');
     }
 }
