@@ -26,6 +26,11 @@
                     <ul class="header-nav">
                         @auth
                         <li class="header-nav__item">
+                            <form class="form" action="{{ route('attendance.list') }}" method="GET">
+                                <button class="header-nav__button">勤怠一覧</button>
+                            </form>
+                        </li>
+                        <li class="header-nav__item">
                             <form class="form" action="{{ route('logout') }}" method="POST">
                                 @csrf
                                 <button class="header-nav__button">ログアウト</button>

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Attendance;
 use App\Models\BreakTime;
+use Carbon\Carbon;
+use Illuminate\Support\Collection;
 
 class AttendanceController extends Controller
 {
@@ -104,4 +106,36 @@ class AttendanceController extends Controller
 
         return redirect()->route('attendance');
     }
+
+    public function list(Request $request)
+    {
+        $year = $request->input('year', Carbon::now()->year);
+        $month = $request->input('month', Carbon::now()->month);
+
+        $currentMonth = Carbon::create($year, $month);
+        $prevMonth = $currentMonth->copy()->subMonth();
+        $nextMonth = $currentMonth->copy()->addMonth();
+
+        // 月初〜月末の日付一覧を生成
+        $daysInMonth = collect();
+        $start = $currentMonth->copy()->startOfMonth();
+        $end = $currentMonth->copy()->endOfMonth();
+
+        for ($date = $start->copy(); $date->lte($end); $date->addDay()) {
+            $daysInMonth->push($date->copy());
+        }
+
+        // 勤怠データを取得（キーを work_date に）
+        $attendances = Attendance::with('breakTimes')
+            ->where('user_id', auth()->id())
+            ->whereYear('work_date', $year)
+            ->whereMonth('work_date', $month)
+            ->get()
+            ->keyBy(function ($item) {
+                return $item->work_date->format('Y-m-d');
+            });
+
+        return view('attendance.list', compact('daysInMonth', 'attendances', 'year', 'month', 'currentMonth', 'prevMonth', 'nextMonth'));
+    }
 }
+

@@ -49,3 +49,7 @@ Route::get('/email/verify/{id}/{hash}', [VerificationController::class, 'verify'
 Route::post('/email/resend', [VerificationController::class, 'resend'])
     ->middleware(['auth', 'throttle:6,1'])
     ->name('verification.resend');
+
+Route::get('/attendance/list', [AttendanceController::class, 'list'])
+    ->middleware(['auth', 'verified'])
+    ->name('attendance.list');

@@ -1,0 +1,113 @@
+body {
+    background-color: #f2f2f2;
+}
+
+/* コンテナ全体 */
+.container {
+    max-width: 960px;
+    margin: 40px auto;
+    padding: 0 20px;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+/* 見出し */
+.container h2 {
+    font-size: 20px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+/* テーブル基本設定 */
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+    background-color: #fff;
+    border-radius: 12px;
+
+}
+
+/* ヘッダー */
+.table th {
+    padding: 12px 8px;
+    border-top: none;
+    border-bottom: 1px solid #ccc;
+    text-align: center;
+    font-weight: bold;
+    color: #333;
+}
+
+/*月表示*/
+.month-nav {
+    width: 100%;
+    background-color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 20px 0;
+    padding: 0 10px;
+    border-radius: 12px;
+}
+
+.month-nav__side {
+    flex: 1;
+    text-align: center;
+}
+
+.month-nav__center {
+    flex: 1;
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+}
+
+.month-nav__button {
+    background-color: white;
+    border: 1px solid white;
+    padding: 6px 12px;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.month-nav__button:hover {
+    background-color: #e6f7ff;
+}
+
+.month-nav__icon {
+    font-size: 18px;
+}
+
+/* 本文セル */
+.table td {
+    padding: 10px 8px;
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    text-align: center;
+    color: #444;
+}
+
+/* ホバー時の行ハイライト */
+.table tbody tr:hover {
+    background-color: #e6f7ff;
+}
+
+/* 詳細リンク */
+.table td a {
+    color: black;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.table td a:hover {
+    text-decoration: underline;
+}
