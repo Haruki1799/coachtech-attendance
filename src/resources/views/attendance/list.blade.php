@@ -6,7 +6,7 @@
 
 @section('content')
 <div class="container">
-    <h2>| 勤怠一覧</h2>
+    <h2>勤怠一覧</h2>
 
     <div class="month-nav">
         <div class="month-nav__side">
@@ -59,7 +59,13 @@
                 <td>{{ optional($attendance?->ended_at)->format('H:i') ?? '' }}</td>
                 <td>{{ $attendance ? $breakFormatted : '' }}</td>
                 <td>{{ $attendance?->total_hours ?? '' }}</td>
-                <td><a href="#">詳細</a></td>
+                <td>
+                    <a href="{{ $attendance
+                        ? route('attendance.detail', ['id' => $attendance->id])
+                        : route('attendance.detail', ['date' => $day->format('Y-m-d')]) }}">
+                        詳細
+                    </a>
+                </td>
             </tr>
             @endforeach
         </tbody>

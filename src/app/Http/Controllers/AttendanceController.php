@@ -6,41 +6,34 @@ use Illuminate\Http\Request;
 use App\Models\Attendance;
 use App\Models\BreakTime;
 use Carbon\Carbon;
-use Illuminate\Support\Collection;
+use App\Http\Requests\UpdateAttendanceRequest;
 
 class AttendanceController extends Controller
 {
+    // 出勤状況のトップ画面
     public function index()
     {
         $today = now()->toDateString();
 
-        // 今日の出勤記録を取得
         $attendance = Attendance::where('user_id', auth()->id())
-            ->whereDate('started_at', $today)
+            ->whereDate('work_date', $today)
             ->latest()
             ->first();
 
-        // 今日出勤していて、まだ退勤していないなら勤務中
         $isWorking = $attendance && is_null($attendance->ended_at);
-
-        // 今日の勤務中で、休憩中かどうか
-        $isOnBreak = $isWorking && $attendance->breakTimes()
-            ->whereNull('ended_at')
-            ->exists();
-
-        // 今日の出勤記録があり、退勤済みなら退勤済
+        $isOnBreak = $isWorking && $attendance->breakTimes()->whereNull('ended_at')->exists();
         $isClockedOut = $attendance && $attendance->ended_at !== null;
 
         return view('attendance', compact('isWorking', 'isOnBreak', 'isClockedOut'));
     }
 
-    public function clockin(Request $request)
+    // 出勤打刻
+    public function clockin()
     {
         $today = now()->toDateString();
 
-        // 今日すでに出勤済みかチェック
         $alreadyClockedIn = Attendance::where('user_id', auth()->id())
-            ->whereDate('started_at', $today)
+            ->whereDate('work_date', $today)
             ->exists();
 
         if ($alreadyClockedIn) {
@@ -50,12 +43,13 @@ class AttendanceController extends Controller
         Attendance::create([
             'user_id' => auth()->id(),
             'started_at' => now(),
-            'work_date' => now()->toDateString(),
+            'work_date' => $today,
         ]);
 
         return redirect()->route('attendance');
     }
 
+    // 退勤打刻
     public function clockout()
     {
         $attendance = Attendance::where('user_id', auth()->id())
@@ -70,6 +64,7 @@ class AttendanceController extends Controller
         return redirect()->route('attendance');
     }
 
+    // 休憩開始
     public function breakin()
     {
         $attendance = Attendance::where('user_id', auth()->id())
@@ -86,6 +81,7 @@ class AttendanceController extends Controller
         return redirect()->route('attendance');
     }
 
+    // 休憩終了
     public function breakout()
     {
         $attendance = Attendance::where('user_id', auth()->id())
@@ -94,11 +90,7 @@ class AttendanceController extends Controller
             ->first();
 
         if ($attendance) {
-            $break = $attendance->breakTimes()
-                ->whereNull('ended_at')
-                ->latest()
-                ->first();
-
+            $break = $attendance->breakTimes()->whereNull('ended_at')->latest()->first();
             if ($break) {
                 $break->update(['ended_at' => now()]);
             }
@@ -107,6 +99,7 @@ class AttendanceController extends Controller
         return redirect()->route('attendance');
     }
 
+    // 月別一覧表示
     public function list(Request $request)
     {
         $year = $request->input('year', Carbon::now()->year);
@@ -116,7 +109,6 @@ class AttendanceController extends Controller
         $prevMonth = $currentMonth->copy()->subMonth();
         $nextMonth = $currentMonth->copy()->addMonth();
 
-        // 月初〜月末の日付一覧を生成
         $daysInMonth = collect();
         $start = $currentMonth->copy()->startOfMonth();
         $end = $currentMonth->copy()->endOfMonth();
@@ -125,17 +117,74 @@ class AttendanceController extends Controller
             $daysInMonth->push($date->copy());
         }
 
-        // 勤怠データを取得（キーを work_date に）
         $attendances = Attendance::with('breakTimes')
             ->where('user_id', auth()->id())
             ->whereYear('work_date', $year)
             ->whereMonth('work_date', $month)
             ->get()
-            ->keyBy(function ($item) {
-                return $item->work_date->format('Y-m-d');
-            });
+            ->keyBy(fn($item) => $item->work_date->format('Y-m-d'));
 
         return view('attendance.list', compact('daysInMonth', 'attendances', 'year', 'month', 'currentMonth', 'prevMonth', 'nextMonth'));
     }
-}
 
+    // 詳細表示
+    public function show($id = null)
+    {
+        $attendance = null;
+
+        if ($id) {
+            $attendance = Attendance::with(['breakTimes' => fn($q) => $q->orderBy('started_at')])
+                ->where('user_id', auth()->id())
+                ->find($id);
+        }
+
+        if (!$attendance) {
+            $workDate = request()->input('date') ?? now()->toDateString();
+            $attendance = new Attendance([
+                'user_id' => auth()->id(),
+                'work_date' => $workDate,
+            ]);
+            $attendance->setRelation('breakTimes', collect());
+        }
+
+        return view('attendance.detail', compact('attendance'));
+    }
+
+    // 勤怠修正
+    public function update(UpdateAttendanceRequest $request, $id)
+    {
+        $attendance = Attendance::with('breakTimes')->findOrFail($id);
+
+        $attendance->started_at = $request->input('started_at');
+        $attendance->ended_at = $request->input('ended_at');
+        $attendance->note = $request->input('note');
+        $attendance->save();
+
+        $submittedBreaks = $request->input('breaks', []);
+        $existingBreaks = $attendance->breakTimes->sortBy('started_at')->values();
+
+        foreach ($submittedBreaks as $index => $breakData) {
+            $startedAt = $breakData['started_at'] ?? null;
+            $endedAt = $breakData['ended_at'] ?? null;
+
+            if (empty($startedAt) && empty($endedAt)) {
+                continue;
+            }
+
+            if (isset($existingBreaks[$index])) {
+                $break = $existingBreaks[$index];
+                $break->started_at = $startedAt;
+                $break->ended_at = $endedAt;
+                $break->save();
+            } else {
+                $attendance->breakTimes()->create([
+                    'started_at' => $startedAt,
+                    'ended_at' => $endedAt,
+                ]);
+            }
+        }
+
+        return redirect()->route('attendance.show', ['id' => $attendance->id])
+            ->with('success', '勤怠情報を更新しました。');
+    }
+}
