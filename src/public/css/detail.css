@@ -1,0 +1,120 @@
+/* 背景と基本レイアウト */
+body {
+    background-color: #f2f2f2;
+    margin: 0;
+    padding: 0;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    color: #000;
+}
+
+.container {
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 20px;
+}
+
+/* 見出し */
+h2 {
+    font-size: 20px;
+    margin-bottom: 24px;
+    border-left: 4px solid #000;
+    padding-left: 10px;
+}
+
+/* テーブル全体 */
+.detail-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin-bottom: 20px;
+    overflow: hidden;
+    border-radius: 12px;
+    /* 全体の角丸 */
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* テーブルのセル */
+.detail-table th,
+.detail-table td {
+    background-color: #fff;
+    padding: 12px 10px;
+    border-bottom: 1px solid #ccc;
+    text-align: left;
+    font-size: 16px;
+}
+
+/* 左上の角丸 */
+.detail-table tr:first-child th:first-child {
+    border-top-left-radius: 12px;
+}
+
+/* 右上の角丸（右端が td の場合も対応） */
+.detail-table tr:first-child td:last-child,
+.detail-table tr:first-child th:last-child {
+    border-top-right-radius: 12px;
+}
+
+/* 見出しセル */
+.detail-table th {
+    width: 120px;
+    font-weight: bold;
+    background-color: #fff;
+}
+
+/* 日付の横並び */
+.date-inline {
+    display: flex;
+    gap: 100px;
+    align-items: center;
+}
+
+/* 入力欄の統一スタイル */
+.detail-table input[type="time"],
+.detail-table textarea {
+    font-size: 15px;
+    padding: 6px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: auto;
+}
+
+.detail-table textarea {
+    width: 100%;
+    resize: vertical;
+    min-height: 60px;
+}
+
+.detail-table textarea:focus,
+.detail-table input[type="time"]:focus {
+    border-color: #000;
+    outline: none;
+}
+
+/* ボタン配置 */
+.detail-actions {
+    text-align: right;
+}
+
+/* ボタンスタイル */
+.btn.btn-dark {
+    background-color: #000;
+    color: #fff;
+    padding: 8px 16px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.btn.btn-dark:hover {
+    background-color: #333;
+}
+
+/*エラーメッセージ*/
+.error {
+    color: #d00;
+    font-size: 14px;
+    margin-top: 4px;
+}

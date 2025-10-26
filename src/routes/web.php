@@ -53,3 +53,5 @@ Route::post('/email/resend', [VerificationController::class, 'resend'])
 Route::get('/attendance/list', [AttendanceController::class, 'list'])
     ->middleware(['auth', 'verified'])
     ->name('attendance.list');
+
+Route::get('/attendance/detail/{id?}', [AttendanceController::class, 'show'])->name('attendance.detail');
