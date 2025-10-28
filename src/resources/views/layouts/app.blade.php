@@ -26,8 +26,18 @@
                     <ul class="header-nav">
                         @auth
                         <li class="header-nav__item">
+                            <form class="form" action="{{ route('attendance') }}" method="GET">
+                                <button class="header-nav__button">勤怠</button>
+                            </form>
+                        </li>
+                        <li class="header-nav__item">
                             <form class="form" action="{{ route('attendance.list') }}" method="GET">
                                 <button class="header-nav__button">勤怠一覧</button>
+                            </form>
+                        </li>
+                        <li class="header-nav__item">
+                            <form class="form" action="{{ route('request.index') }}" method="GET">
+                                <button class="header-nav__button">申請</button>
                             </form>
                         </li>
                         <li class="header-nav__item">

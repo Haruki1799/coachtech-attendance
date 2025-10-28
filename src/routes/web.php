@@ -4,8 +4,10 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AttendanceController;
+use App\Http\Controllers\RequestController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Auth\VerificationController;
+
 
 
 /*
@@ -55,3 +57,10 @@ Route::get('/attendance/list', [AttendanceController::class, 'list'])
     ->name('attendance.list');
 
 Route::get('/attendance/detail/{id?}', [AttendanceController::class, 'show'])->name('attendance.detail');
+
+Route::put('/attendance/detail/{id}', [AttendanceController::class, 'update'])->name('attendance.detail.update');
+
+Route::get('/attendance/submitted/{id}', [AttendanceController::class, 'submittedList'])->name('attendance.submitted');
+
+Route::get('/stamp_correction_request/list', [RequestController::class, 'index'])->name('request.index');
+Route::get('/stamp_correction_request/list/{id}', [RequestController::class, 'show'])->name('request.show');
