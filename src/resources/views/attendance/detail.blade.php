@@ -8,13 +8,9 @@
 <div class="container">
     <h2>勤怠詳細</h2>
 
-    <form method="POST" action="{{ $attendance->exists
-        ? route('attendance.detail', ['id' => $attendance->id])
-        : route('attendance.detail') }}">
+    <form method="POST" action="{{ route('attendance.detail.update', ['id' => $attendance->id ?? 0]) }}">
         @csrf
-        @if ($attendance->exists)
         @method('PUT')
-        @endif
 
         <table class="detail-table">
             <tbody>
