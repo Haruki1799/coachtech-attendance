@@ -1,12 +1,13 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\RequestController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Auth\VerificationController;
+use App\Http\Controllers\Admin\AuthController;
+use App\Http\Controllers\Admin\AdminController;
 
 
 
@@ -64,3 +65,12 @@ Route::get('/attendance/submitted/{id}', [AttendanceController::class, 'submitte
 
 Route::get('/stamp_correction_request/list', [RequestController::class, 'index'])->name('request.index');
 Route::get('/stamp_correction_request/list/{id}', [RequestController::class, 'show'])->name('request.show');
+
+Route::get('/admin/login', [AuthController::class, 'showLoginForm'])->name('admin.login');
+Route::post('/admin/login', [AuthController::class, 'login']);
+Route::post('/admin/logout', [AuthController::class, 'logout'])->name('admin.logout');
+
+Route::middleware(['auth:admin'])->group(function () {
+    Route::get('/admin/attendance/list', [AdminController::class, 'list'])->name('admin.list');
+    Route::get('/admin/attendance/detail/{id?}', [AdminController::class, 'detail'])->name('admin.attendance.detail');
+});

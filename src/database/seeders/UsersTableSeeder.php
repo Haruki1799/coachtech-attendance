@@ -21,6 +21,7 @@ class UsersTableSeeder extends Seeder
             'email' => 'test@gmail.com',
             'email_verified_at' => Carbon::now(),
             'password' => Hash::make('password'),
+            'role' => 'user'
         ];
         User::create($param);
 
@@ -29,6 +30,16 @@ class UsersTableSeeder extends Seeder
             'email' => 'test2@gmail.com',
             'email_verified_at' => Carbon::now(),
             'password' => Hash::make('password'),
+            'role' => 'user'
+        ];
+        User::create($param);
+
+        $param = [
+            'name' => '管理者',
+            'email' => 'root@gmail.com',
+            'email_verified_at' => Carbon::now(),
+            'password' => Hash::make('password'),
+            'role' => 'admin'
         ];
         User::create($param);
     }
