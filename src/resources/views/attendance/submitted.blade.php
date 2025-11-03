@@ -18,7 +18,12 @@
             </tr>
             <tr>
                 <th>日付</th>
-                <td>{{ $attendance->work_date->format('Y年n月j日') }}</td>
+                <td>
+                    <div class="date-inline">
+                        <div>{{ $attendance->work_date->format('Y年') }}</div>
+                        <div>{{ $attendance->work_date->format('n月j日') }}</div>
+                    </div>
+                </td>
             </tr>
             <tr>
                 <th>出勤・退勤</th>

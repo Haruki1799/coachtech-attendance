@@ -15,6 +15,11 @@ class BreakTime extends Model
         'ended_at',
     ];
 
+    protected $casts = [
+        'started_at' => 'datetime',
+        'ended_at' => 'datetime',
+    ];
+
     public function attendance()
     {
         return $this->belongsTo(Attendance::class);

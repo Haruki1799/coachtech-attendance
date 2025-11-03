@@ -154,38 +154,39 @@ class AttendanceController extends Controller
     // 勤怠修正・申請
     public function update(UpdateAttendanceRequest $request, $id)
     {
-        // 勤怠レコード取得（なければ新規作成）
-        $attendance = Attendance::with('breakTimes')->find($id);
+        // 勤怠レコードを id ベースで取得（user_id も確認）
+        $attendance = Attendance::with('breakTimes')
+            ->where('user_id', auth()->id())
+            ->findOrFail($id);
 
-        if (!$attendance) {
-            $attendance = new Attendance();
-            $attendance->user_id = auth()->id();
-            $attendance->work_date = $request->input('work_date') ?? now()->toDateString();
-        }
+        // 勤務日（hiddenで送信される）を取得
+        $workDate = $request->input('work_date') ?? now()->toDateString();
+        $attendance->work_date = $workDate;
 
-        // 勤怠情報の更新
+        // 出勤・退勤・備考の更新
         $attendance->started_at = $request->input('started_at');
         $attendance->ended_at = $request->input('ended_at');
         $attendance->note = $request->input('note');
-        $attendance->is_submitted = true; // ✅ 申請フラグを立てる
+        $attendance->is_submitted = true;
         $attendance->save();
 
         // 休憩時間の更新・追加
         $submittedBreaks = $request->input('breaks', []);
         $existingBreaks = $attendance->breakTimes->sortBy('started_at')->values();
+        $workDateFormatted = Carbon::parse($workDate)->format('Y-m-d');
 
         foreach ($submittedBreaks as $index => $breakData) {
             $startedAt = $breakData['started_at'] ?? null;
             $endedAt = $breakData['ended_at'] ?? null;
 
+            // 両方空ならスキップ
             if (empty($startedAt) && empty($endedAt)) {
                 continue;
             }
 
-            // 日付と時刻を合成して datetime に変換
-            $workDate = $attendance->work_date->format('Y-m-d');
-            $startedAtFull = $startedAt ? Carbon::parse("{$workDate} {$startedAt}") : null;
-            $endedAtFull = $endedAt ? Carbon::parse("{$workDate} {$endedAt}") : null;
+            // 日付と時刻を合成
+            $startedAtFull = $startedAt ? Carbon::parse("{$workDateFormatted} {$startedAt}") : null;
+            $endedAtFull = $endedAt ? Carbon::parse("{$workDateFormatted} {$endedAt}") : null;
 
             if (isset($existingBreaks[$index])) {
                 // 既存休憩の更新
@@ -202,23 +203,78 @@ class AttendanceController extends Controller
             }
         }
 
+        // 勤怠修正申請の登録
         AttendanceRequest::create([
             'attendance_id' => $attendance->id,
             'user_id' => auth()->id(),
-            'target_date' => $attendance->work_date,
+            'target_date' => $workDate,
             'reason' => $attendance->note ?? '備考なし',
             'status' => 'pending',
             'requested_at' => now(),
         ]);
 
-        // ✅ 保存後に申請確認画面へ遷移
+        // 修正後の詳細画面へ遷移
         return redirect()->route('attendance.submitted', ['id' => $attendance->id])
             ->with('success', '勤怠情報を修正・申請しました。');
     }
 
+public function store(UpdateAttendanceRequest $request)
+{
+    $workDate = $request->input('work_date') ?? now()->toDateString();
+    $workDateFormatted = Carbon::parse($workDate)->format('Y-m-d');
+
+    // 勤怠レコードの作成
+    $attendance = new Attendance();
+    $attendance->user_id = auth()->id();
+    $attendance->work_date = $workDate;
+    $attendance->started_at = $request->input('started_at');
+    $attendance->ended_at = $request->input('ended_at');
+    $attendance->note = $request->input('note');
+    $attendance->is_submitted = true;
+    $attendance->save();
+
+    // 休憩時間の保存
+    $submittedBreaks = $request->input('breaks', []);
+    foreach ($submittedBreaks as $breakData) {
+        $startedAt = $breakData['started_at'] ?? null;
+        $endedAt = $breakData['ended_at'] ?? null;
+
+        if (empty($startedAt) && empty($endedAt)) {
+            continue;
+        }
+
+        $startedAtFull = $startedAt ? Carbon::parse("{$workDateFormatted} {$startedAt}") : null;
+        $endedAtFull = $endedAt ? Carbon::parse("{$workDateFormatted} {$endedAt}") : null;
+
+        $attendance->breakTimes()->create([
+            'started_at' => $startedAtFull,
+            'ended_at' => $endedAtFull,
+        ]);
+    }
+
+    // 勤怠修正申請の登録
+    AttendanceRequest::create([
+        'attendance_id' => $attendance->id,
+        'user_id' => auth()->id(),
+        'target_date' => $workDate,
+        'reason' => $attendance->note ?? '備考なし',
+        'status' => 'pending',
+        'requested_at' => now(),
+    ]);
+
+    // 修正申請画面へ遷移
+    return redirect()->route('attendance.submitted', ['id' => $attendance->id])
+        ->with('success', '勤怠情報を登録・申請しました。');
+}
+
+
     public function submittedList($id)
     {
-        $attendance = Attendance::with('user', 'breakTimes')->findOrFail($id);
+        $attendance = Attendance::with([
+            'user',
+            'breakTimes' => fn($q) => $q->orderBy('started_at')
+        ])->findOrFail($id);
+
         return view('attendance.submitted', compact('attendance'));
     }
 }

@@ -8,9 +8,14 @@
 <div class="container">
     <h2>勤怠詳細</h2>
 
-    <form method="POST" action="{{ route('attendance.detail.update', ['id' => $attendance->id ?? 0]) }}">
+    <form method="POST"
+        action="{{ isset($attendance) && $attendance->id
+        ? route('attendance.detail.update', ['id' => $attendance->id])
+        : route('attendance.store') }}">
         @csrf
+        @if(isset($attendance) && $attendance->id)
         @method('PUT')
+        @endif
 
         <table class="detail-table">
             <tbody>
@@ -24,6 +29,7 @@
                         <div class="date-inline">
                             <div>{{ $attendance->work_date->format('Y年') }}</div>
                             <div>{{ $attendance->work_date->format('n月j日') }}</div>
+                            <input type="hidden" name="work_date" value="{{ $attendance->work_date->format('Y-m-d') }}">
                         </div>
                     </td>
                 </tr>

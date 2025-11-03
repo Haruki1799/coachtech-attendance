@@ -31,7 +31,6 @@
         </div>
     </div>
 
-
     <table class="table">
         <thead>
             <tr>
@@ -48,21 +47,38 @@
             @php
             $key = $day->format('Y-m-d');
             $attendance = $attendances[$key] ?? null;
+
             $breakMinutes = $attendance?->breakTimes->sum(function ($break) {
-            return \Carbon\Carbon::parse($break->ended_at)->diffInMinutes(\Carbon\Carbon::parse($break->started_at));
+            $start = \Carbon\Carbon::make($break->started_at);
+            $end = \Carbon\Carbon::make($break->ended_at);
+            return ($start && $end) ? $end->diffInMinutes($start) : 0;
             }) ?? 0;
-            $breakFormatted = sprintf('%d:%02d', intdiv($breakMinutes, 60), $breakMinutes % 60);
+
+            $breakFormatted = $breakMinutes > 0
+            ? sprintf('%d:%02d', intdiv($breakMinutes, 60), $breakMinutes % 60)
+            : '';
+
+            $breakFormatted = $attendance
+            ? sprintf('%d:%02d', intdiv($breakMinutes, 60), $breakMinutes % 60)
+            : '';
+
+            $start = \Carbon\Carbon::make($attendance?->started_at);
+            $end = \Carbon\Carbon::make($attendance?->ended_at);
+            $totalMinutes = ($start && $end) ? $end->diffInMinutes($start) - $breakMinutes : null;
+            $totalFormatted = $totalMinutes !== null
+            ? sprintf('%d:%02d', intdiv($totalMinutes, 60), $totalMinutes % 60)
+            : '';
             @endphp
             <tr>
                 <td>{{ $day->format('m/d') }}({{ $day->isoFormat('ddd') }})</td>
-                <td>{{ optional($attendance?->started_at)->format('H:i') ?? '' }}</td>
-                <td>{{ optional($attendance?->ended_at)->format('H:i') ?? '' }}</td>
-                <td>{{ $attendance ? $breakFormatted : '' }}</td>
-                <td>{{ $attendance?->total_hours ?? '' }}</td>
+                <td>{{ $start?->format('H:i') ?? '' }}</td>
+                <td>{{ $end?->format('H:i') ?? '' }}</td>
+                <td>{{ $breakFormatted }}</td>
+                <td>{{ $totalFormatted }}</td>
                 <td>
                     <a href="{{ $attendance
-                        ? route('attendance.detail', ['id' => $attendance->id])
-                        : route('attendance.detail', ['date' => $day->format('Y-m-d')]) }}">
+                            ? route('attendance.detail', ['id' => $attendance->id])
+                            : route('attendance.detail', ['date' => $day->format('Y-m-d')]) }}">
                         詳細
                     </a>
                 </td>

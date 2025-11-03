@@ -19,7 +19,7 @@ class AuthController extends Controller
         $credentials['role'] = 'admin';
 
         if (Auth::guard('admin')->attempt($credentials)) {
-            return redirect()->intended(route('admin.list'));
+            return redirect()->route('admin.list');
         }
 
         return back()->withErrors(['email' => 'ログイン情報が登録されていません']);
