@@ -15,16 +15,32 @@
     <header class="header">
         <div class="header__inner">
             <div class="header-utilities">
-                <a class="header__logo" href="/attendance">
+                @if (Auth::guard('admin')->check())
+                <a class="header__logo" href="{{ route('admin.list') }}">
                     <img src="{{ asset('img/logo.svg') }}" alt="coachtech">
                 </a>
+                @else
+                <a class="header__logo" href="{{ route('attendance') }}">
+                    <img src="{{ asset('img/logo.svg') }}" alt="coachtech">
+                </a>
+                @endif
 
                 @if (!View::hasSection('hide-nav'))
-
-
                 <nav>
                     <ul class="header-nav">
-                        @auth
+                        @auth('admin')
+                        <li class="header-nav__item">
+                            <form class="form" action="{{ route('admin.list') }}" method="GET">
+                                <button class="header-nav__button">勤怠一覧</button>
+                            </form>
+                        </li>
+                        <li class="header-nav__item">
+                            <form class="form" action="{{ route('admin.logout') }}" method="POST">
+                                @csrf
+                                <button class="header-nav__button">ログアウト</button>
+                            </form>
+                        </li>
+                        @elseif (Auth::guard('web')->check())
                         <li class="header-nav__item">
                             <form class="form" action="{{ route('attendance') }}" method="GET">
                                 <button class="header-nav__button">勤怠</button>

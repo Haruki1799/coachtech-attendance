@@ -58,7 +58,7 @@ Route::get('/attendance/list', [AttendanceController::class, 'list'])
     ->name('attendance.list');
 
 Route::get('/attendance/detail/{id?}', [AttendanceController::class, 'show'])->name('attendance.detail');
-
+Route::post('/attendance', [AttendanceController::class, 'store'])->name('attendance.store');
 Route::put('/attendance/detail/{id}', [AttendanceController::class, 'update'])->name('attendance.detail.update');
 
 Route::get('/attendance/submitted/{id}', [AttendanceController::class, 'submittedList'])->name('attendance.submitted');
