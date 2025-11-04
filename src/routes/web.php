@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Auth\VerificationController;
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\AdminAttendanceController;
 
 
 
@@ -72,8 +73,16 @@ Route::post('/admin/logout', [AuthController::class, 'logout'])->name('admin.log
 
 Route::middleware(['auth:admin'])->group(function () {
     Route::get('/admin/attendance/list', [AdminController::class, 'list'])->name('admin.list');
-    Route::get('/admin/attendance/detail/{id?}', [AdminController::class, 'detail'])->name('admin.attendance.admin_detail');
+    Route::get('/admin/attendance/detail/{id?}', [AdminAttendanceController::class, 'adminDetail'])->name('admin.attendance.admin_detail');
 });
 
-Route::get('/admin/attendance/detail/{id?}', [AdminAttendanceController::class, 'adminDetail'])
-    ->name('admin.attendance.admin_detail');
+Route::middleware(['auth:admin'])->group(function () {
+    Route::put('/admin/attendance/detail/{id}', [AdminAttendanceController::class, 'update'])
+        ->name('admin.attendance.update');
+
+    Route::post('/admin/attendance', [AdminAttendanceController::class, 'store'])
+        ->name('admin.attendance.store');
+
+    Route::get('/admin/attendance/submitted/{id}', [AdminAttendanceController::class, 'submitted'])
+        ->name('admin.attendance.admin_submitted');
+});
