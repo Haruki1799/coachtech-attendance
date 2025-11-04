@@ -24,19 +24,27 @@ class AdminController extends Controller
         return view('admin.list', compact('users', 'attendances', 'targetDate'));
     }
 
-    public function detail(Request $request, $id = null)
+    public function adminDetail(Request $request, $id = null)
     {
         if ($id) {
-            $attendance = Attendance::with('breakTimes')->findOrFail($id);
+            $attendance = Attendance::with(['user', 'breakTimes'])->findOrFail($id);
         } else {
-            $date = $request->input('date');
-            $userId = $request->input('user_id');
-            $attendance = Attendance::with('breakTimes')
-                ->where('user_id', $userId)
-                ->whereDate('work_date', $date)
+            $attendance = Attendance::where('user_id', $request->user_id)
+                ->whereDate('work_date', $request->date)
+                ->with(['user', 'breakTimes'])
                 ->first();
         }
 
-        return view('admin.detail', compact('attendance'));
+        // 勤怠申請の状態を確認
+        $requestStatus = \App\Models\Request::where('attendance_id', $attendance->id)
+            ->where('status', 'pending')
+            ->latest()
+            ->first();
+
+        if ($requestStatus) {
+            return view('admin.admin_submitted', compact('attendance', 'requestStatus'));
+        }
+
+        return view('admin.admin_detail', compact('attendance'));
     }
 }

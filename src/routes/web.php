@@ -72,5 +72,8 @@ Route::post('/admin/logout', [AuthController::class, 'logout'])->name('admin.log
 
 Route::middleware(['auth:admin'])->group(function () {
     Route::get('/admin/attendance/list', [AdminController::class, 'list'])->name('admin.list');
-    Route::get('/admin/attendance/detail/{id?}', [AdminController::class, 'detail'])->name('admin.attendance.detail');
+    Route::get('/admin/attendance/detail/{id?}', [AdminController::class, 'detail'])->name('admin.attendance.admin_detail');
 });
+
+Route::get('/admin/attendance/detail/{id?}', [AdminAttendanceController::class, 'adminDetail'])
+    ->name('admin.attendance.admin_detail');

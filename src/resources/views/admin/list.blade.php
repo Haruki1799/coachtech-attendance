@@ -57,8 +57,8 @@
                 <td>{{ $attendance?->total_hours ?? '' }}</td>
                 <td>
                     <a href="{{ $attendance
-                        ? route('admin.attendance.detail', ['id' => $attendance->id])
-                        : route('admin.attendance.detail', ['date' => $targetDate->format('Y-m-d'), 'user_id' => $user->id]) }}">
+                        ? route('admin.attendance.admin_detail', ['id' => $attendance->id])
+                        : route('admin.attendance.admin_detail', ['date' => $targetDate->format('Y-m-d'), 'user_id' => $user->id]) }}">
                         詳細
                     </a>
                 </td>
