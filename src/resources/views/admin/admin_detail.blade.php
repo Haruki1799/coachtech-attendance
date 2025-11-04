@@ -8,11 +8,20 @@
 <div class="container">
     <h2>勤怠詳細</h2>
 
+
+    @php
+    $isAdmin = request()->is('admin/*');
+    @endphp
+
     <form method="POST"
         action="{{ isset($attendance) && $attendance->id
-        ? route('attendance.detail.update', ['id' => $attendance->id])
-        : route('attendance.store') }}">
+        ? route('admin.attendance.update', ['id' => $attendance->id])
+        : route('admin.attendance.store') }}">
         @csrf
+        @if($isAdmin)
+        <input type="hidden" name="user_id" value="{{ $attendance->user->id ?? '' }}">
+        @endif
+
         @if(isset($attendance) && $attendance->id)
         @method('PUT')
         @endif

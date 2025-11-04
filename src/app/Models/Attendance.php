@@ -21,6 +21,7 @@ class Attendance extends Model
         'work_date' => 'date',
         'started_at' => 'datetime',
         'ended_at' => 'datetime',
+        'is_submitted' => 'boolean',
     ];
 
     public function user()
