@@ -86,3 +86,13 @@ Route::middleware(['auth:admin'])->group(function () {
     Route::get('/admin/attendance/submitted/{id}', [AdminAttendanceController::class, 'submitted'])
         ->name('admin.attendance.admin_submitted');
 });
+
+Route::middleware(['auth:admin'])->group(function () {
+    Route::get('/admin/staff/list', [AdminController::class, 'staffList'])->name('admin.staff.list');
+});
+
+Route::get('/admin/attendance/staff/monthly', [AdminAttendanceController::class, 'list'])
+    ->name('admin.attendance.list');
+
+Route::get('/admin/attendance/monthly_csv', [AdminAttendanceController::class, 'exportMonthlyCsv'])
+    ->name('admin.attendance.monthly_csv');

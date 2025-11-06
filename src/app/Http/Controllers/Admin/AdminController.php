@@ -47,4 +47,11 @@ class AdminController extends Controller
 
         return view('admin.admin_detail', compact('attendance'));
     }
+
+    public function staffList()
+    {
+        $staffs = User::where('role', 'user')->orderBy('name')->get();
+
+        return view('admin.staff_list', compact('staffs'));
+    }
 }

@@ -35,6 +35,11 @@
                             </form>
                         </li>
                         <li class="header-nav__item">
+                            <form class="form" action="{{ route('admin.staff.list') }}" method="GET">
+                                <button class="header-nav__button">スタッフ一覧</button>
+                            </form>
+                        </li>
+                        <li class="header-nav__item">
                             <form class="form" action="{{ route('admin.logout') }}" method="POST">
                                 @csrf
                                 <button class="header-nav__button">ログアウト</button>

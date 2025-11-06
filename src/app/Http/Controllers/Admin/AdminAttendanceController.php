@@ -10,6 +10,7 @@ use App\Models\User;
 use App\Models\Request as AttendanceRequest;
 use App\Http\Requests\UpdateAttendanceRequest;
 use Carbon\Carbon;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class AdminAttendanceController extends Controller
 {
@@ -154,5 +155,114 @@ class AdminAttendanceController extends Controller
         ])->findOrFail($id);
 
         return view('admin.admin_submitted', compact('attendance'));
+    }
+
+    public function list(Request $request)
+    {
+        $userId = $request->input('user_id');
+        $year = $request->input('year', now()->year);
+        $month = $request->input('month', now()->month);
+
+        $user = User::findOrFail($userId);
+        $currentMonth = Carbon::create($year, $month);
+        $prevMonth = $currentMonth->copy()->subMonth();
+        $nextMonth = $currentMonth->copy()->addMonth();
+
+        $start = $currentMonth->copy()->startOfMonth();
+        $end = $currentMonth->copy()->endOfMonth();
+
+        $daysInMonth = collect();
+        for ($date = $start->copy(); $date->lte($end); $date->addDay()) {
+            $daysInMonth->push($date->copy());
+        }
+
+        $attendances = Attendance::with('breakTimes')
+            ->where('user_id', $userId)
+            ->whereBetween('work_date', [$start, $end])
+            ->get()
+            ->keyBy(fn($item) => $item->work_date->format('Y-m-d'));
+
+        return view('admin.attendance_list', compact(
+            'user',
+            'daysInMonth',
+            'attendances',
+            'year',
+            'month',
+            'currentMonth',
+            'prevMonth',
+            'nextMonth'
+        ));
+    }
+
+    public function monthlyList(Request $request)
+    {
+        $year = $request->input('year', now()->year);
+        $month = $request->input('month', now()->month);
+
+        $currentMonth = Carbon::create($year, $month);
+        $start = $currentMonth->copy()->startOfMonth();
+        $end = $currentMonth->copy()->endOfMonth();
+
+        $attendances = Attendance::with('user')
+            ->whereBetween('work_date', [$start, $end])
+            ->get()
+            ->groupBy('user_id');
+
+        $users = User::whereIn('id', $attendances->keys())->get();
+
+        return view('admin.monthly_summary', compact('users', 'attendances', 'year', 'month', 'currentMonth'));
+    }
+
+    public function exportMonthlyCsv(Request $request): StreamedResponse
+    {
+        $userId = $request->input('user_id');
+        $year = $request->input('year', now()->year);
+        $month = $request->input('month', now()->month);
+
+        $user = User::findOrFail($userId);
+        $currentMonth = Carbon::create($year, $month);
+        $start = $currentMonth->copy()->startOfMonth();
+        $end = $currentMonth->copy()->endOfMonth();
+
+        $attendances = Attendance::with('breakTimes')
+            ->where('user_id', $userId)
+            ->whereBetween('work_date', [$start, $end])
+            ->orderBy('work_date')
+            ->get();
+
+        $filename = "{$user->name}_{$year}_{$month}_勤怠.csv";
+
+        $headers = [
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => "attachment; filename={$filename}",
+        ];
+
+        return response()->streamDownload(function () use ($attendances) {
+            $stream = fopen('php://output', 'w');
+            fputcsv($stream, ['日付', '出勤', '退勤', '休憩時間', '合計時間', '備考']);
+
+            foreach ($attendances as $attendance) {
+                $breakMinutes = $attendance->breakTimes->sum(function ($break) {
+                    $start = Carbon::make($break->started_at);
+                    $end = Carbon::make($break->ended_at);
+                    return ($start && $end) ? $end->diffInMinutes($start) : 0;
+                });
+
+                $start = Carbon::make($attendance->started_at);
+                $end = Carbon::make($attendance->ended_at);
+                $totalMinutes = ($start && $end) ? $end->diffInMinutes($start) - $breakMinutes : null;
+
+                fputcsv($stream, [
+                    $attendance->work_date->format('Y-m-d'),
+                    $start?->format('H:i') ?? '',
+                    $end?->format('H:i') ?? '',
+                    sprintf('%d:%02d', intdiv($breakMinutes, 60), $breakMinutes % 60),
+                    $totalMinutes !== null ? sprintf('%d:%02d', intdiv($totalMinutes, 60), $totalMinutes % 60) : '',
+                    $attendance->note ?? '',
+                ]);
+            }
+
+            fclose($stream);
+        }, $filename, $headers);
     }
 }
