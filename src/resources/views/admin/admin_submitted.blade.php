@@ -49,8 +49,14 @@
     </table>
 
 
-    <div class="alert-warning">
-        ※承認待ちのため修正はできません。
-    </div>
+    @if ($request->status === 'approved')
+    <div class="btn_success">承認済み</div>
+    @else
+    <form method="POST" action="{{ route('admin.request.approve', ['id' => $request->id]) }}">
+        @csrf
+        @method('PUT')
+        <button type="submit" class="btn_approve">承認</button>
+    </form>
+    @endif
 </div>
 @endsection

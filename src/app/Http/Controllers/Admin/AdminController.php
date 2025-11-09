@@ -54,4 +54,5 @@ class AdminController extends Controller
 
         return view('admin.staff_list', compact('staffs'));
     }
+
 }

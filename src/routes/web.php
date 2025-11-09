@@ -9,7 +9,7 @@ use App\Http\Controllers\Auth\VerificationController;
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AdminAttendanceController;
-
+use App\Http\Controllers\Admin\AdminRequestController;
 
 
 /*
@@ -96,3 +96,12 @@ Route::get('/admin/attendance/staff/monthly', [AdminAttendanceController::class,
 
 Route::get('/admin/attendance/monthly_csv', [AdminAttendanceController::class, 'exportMonthlyCsv'])
     ->name('admin.attendance.monthly_csv');
+
+Route::middleware(['auth:admin'])->group(function () {
+    Route::get('/admin/request/list', [AdminRequestController::class, 'index'])->name('admin.request.index');
+    Route::get('/admin/request/list/{id}', [AdminRequestController::class, 'show'])->name('admin.request.show');
+});
+
+Route::middleware(['auth:admin'])->group(function () {
+    Route::put('/admin/request/approve/{id}', [AdminRequestController::class, 'approve'])->name('admin.request.approve');
+});

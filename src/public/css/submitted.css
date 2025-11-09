@@ -123,3 +123,31 @@ h2 {
     color: #d00;
     text-align: right;
 }
+
+.btn_approve {
+    display: inline-block;
+    background-color: #000;
+    color: #fff;
+    font-weight: bold;
+    font-size: 14pt;
+    padding: 0.5em 1.2em;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    float: right;
+    margin-top: 1em;
+}
+
+.btn_success {
+    display: inline-block;
+    background-color: #333;
+    color: #fff;
+    font-weight: bold;
+    font-size: 14pt;
+    padding: 0.5em 1.2em;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    float: right;
+    margin-top: 1em;
+}
