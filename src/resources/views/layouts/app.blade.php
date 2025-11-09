@@ -40,6 +40,11 @@
                             </form>
                         </li>
                         <li class="header-nav__item">
+                            <form class="form" action="{{ route('admin.request.index') }}" method="GET">
+                                <button class="header-nav__button">申請一覧</button>
+                            </form>
+                        </li>
+                        <li class="header-nav__item">
                             <form class="form" action="{{ route('admin.logout') }}" method="POST">
                                 @csrf
                                 <button class="header-nav__button">ログアウト</button>
