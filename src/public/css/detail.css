@@ -118,3 +118,60 @@ h2 {
     font-size: 14px;
     margin-top: 4px;
 }
+
+/* PC対応（1400px〜1540px） */
+@media (min-width: 1400px) and (max-width: 1540px) {
+    h2 {
+        font-size: 22px;
+    }
+
+    .detail-table th,
+    .detail-table td {
+        font-size: 17px;
+        padding: 14px 12px;
+    }
+
+    .date-inline {
+        gap: 120px;
+    }
+
+    .btn.btn-dark {
+        font-size: 15px;
+        padding: 10px 20px;
+    }
+}
+
+/* タブレット対応（768px〜850px） */
+@media (min-width: 768px) and (max-width: 850px) {
+    .container {
+        max-width: 60%;
+        margin: 20px auto;
+        padding: 16px;
+    }
+
+    h2 {
+        font-size: 18px;
+        padding-left: 8px;
+        margin-bottom: 20px;
+    }
+
+    .detail-table {
+        font-size: 14px;
+        border-radius: 8px;
+    }
+
+    .detail-table th,
+    .detail-table td {
+        font-size: 14px;
+        padding: 10px 8px;
+    }
+
+    .btn.btn-dark {
+        font-size: 14px;
+        padding: 8px 16px;
+    }
+
+    .error {
+        font-size: 13px;
+    }
+}

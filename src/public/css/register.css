@@ -35,7 +35,6 @@
     height: 40px;
     border: 1px solid #ddd;
     border-radius: 3px;
-
     appearance: none;
 }
 
@@ -69,5 +68,12 @@
 @media (min-width: 1400px) and (max-width: 1540px) {
     .form {
         width: 30%;
+    }
+}
+
+/* タブレット対応（768px〜850px） */
+@media (min-width: 768px) and (max-width: 850px) {
+    .form {
+        width: 40%;
     }
 }

@@ -63,3 +63,9 @@
     }
 }
 
+/* タブレット対応（768px〜850px） */
+@media (min-width: 768px) and (max-width: 850px) {
+    .form {
+        width: 60%;
+    }
+}

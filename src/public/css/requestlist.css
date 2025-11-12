@@ -23,7 +23,7 @@ body {
 .status-tabs {
     display: flex;
     gap: 100px;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 
 .status-tabs a.status-tab {
@@ -43,6 +43,11 @@ body {
 .status-tabs a.status-tab:hover {
     opacity: 0.8;
     text-decoration: none;
+}
+
+.divider {
+    border-top: 1px solid #000;
+    margin-bottom: 20px;
 }
 
 /* テーブル基本設定 */
@@ -92,4 +97,75 @@ body {
 
 .table tbody tr:last-child td {
     border-bottom: none;
+}
+
+/* PC対応（1400px〜1540px） */
+@media (min-width: 1400px) and (max-width: 1540px) {
+    .container {
+        max-width: 1100px;
+        padding: 0 30px;
+    }
+
+    .container h2 {
+        font-size: 22px;
+    }
+
+    .status-tabs {
+        gap: 120px;
+    }
+
+    .status-tabs a.status-tab {
+        font-size: 17px;
+    }
+
+    .table {
+        font-size: 15px;
+    }
+
+    .table th,
+    .table td {
+        padding: 14px 10px;
+    }
+}
+
+/* タブレット対応（768px〜850px） */
+@media (min-width: 768px) and (max-width: 850px) {
+    .container {
+        max-width: 100%;
+        margin: 20px auto;
+        padding: 0 16px;
+    }
+
+    .container h2 {
+        font-size: 18px;
+        padding-left: 8px;
+        margin-bottom: 16px;
+    }
+
+    .status-tabs {
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 24px;
+        margin-bottom: 8px;
+    }
+
+    .status-tabs a.status-tab {
+        font-size: 15px;
+        padding: 6px 10px;
+        white-space: nowrap;
+    }
+
+    .table {
+        font-size: 13px;
+        border-radius: 8px;
+    }
+
+    .table th,
+    .table td {
+        padding: 10px 6px;
+    }
+
+    .table td a {
+        font-size: 13px;
+    }
 }

@@ -140,7 +140,7 @@ h2 {
 
 .btn_success {
     display: inline-block;
-    background-color: #333;
+    background-color:#696969;
     color: #fff;
     font-weight: bold;
     font-size: 14pt;
@@ -150,4 +150,79 @@ h2 {
     transition: background-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
     float: right;
     margin-top: 1em;
+}
+
+/* PC対応（1400px〜1540px） */
+@media (min-width: 1400px) and (max-width: 1540px) {
+    .container {
+        max-width: 800px;
+        padding: 30px;
+    }
+
+    h2 {
+        font-size: 22px;
+    }
+
+    .detail-table th,
+    .detail-table td {
+        font-size: 17px;
+        padding: 14px 12px;
+    }
+
+    .date-inline {
+        gap: 40px;
+    }
+
+    .btn.btn-dark,
+    .btn_approve,
+    .btn_success {
+        font-size: 15px;
+        padding: 10px 20px;
+    }
+
+    .error {
+        font-size: 15px;
+    }
+}
+
+/* タブレット対応（768px〜850px） */
+@media (min-width: 768px) and (max-width: 850px) {
+    .container {
+        max-width: 60%;
+        margin: 20px auto;
+        padding: 16px;
+    }
+
+    h2 {
+        font-size: 18px;
+        padding-left: 8px;
+        margin-bottom: 16px;
+    }
+
+    .detail-table {
+        font-size: 14px;
+        border-radius: 8px;
+    }
+
+    .detail-table th,
+    .detail-table td {
+        font-size: 14px;
+        padding: 10px 8px;
+    }
+
+    .btn.btn-dark,
+    .btn_approve,
+    .btn_success {
+        font-size: 14px;
+        padding: 8px 16px;
+    }
+
+    .error {
+        font-size: 13px;
+    }
+
+    .alert-warning {
+        font-size: 13px;
+        text-align: center;
+    }
 }
