@@ -15,6 +15,7 @@ class Attendance extends Model
         'started_at',
         'ended_at',
         'work_date',
+        'note',
     ];
 
     protected $casts = [
@@ -46,5 +47,10 @@ class Attendance extends Model
 
         $netMinutes = max(0, $workMinutes - $breakMinutes);
         return sprintf('%d:%02d', intdiv($netMinutes, 60), $netMinutes % 60);
+    }
+
+    public function request()
+    {
+        return $this->hasOne(Request::class);
     }
 }

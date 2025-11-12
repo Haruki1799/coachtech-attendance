@@ -40,7 +40,16 @@ class AdminAttendanceController extends Controller
         }
 
         if ($attendance->is_submitted) {
-            return view('admin.admin_submitted', compact('attendance'));
+            $requestModel = AttendanceRequest::where('attendance_id', $attendance->id)->first();
+
+            if ($requestModel) {
+                return view('attendance.submitted', [
+                    'attendance' => $attendance,
+                    'request' => $requestModel,
+                ]);
+            } else {
+                return view('admin.admin_submitted', compact('attendance'));
+            }
         }
 
         return view('admin.admin_detail', compact('attendance'));
@@ -94,8 +103,8 @@ class AdminAttendanceController extends Controller
             ]
         );
 
-        return redirect()->route('admin.attendance.admin_submitted', ['id' => $attendance->id])
-            ->with('success', '勤怠情報を修正・申請しました');
+        return redirect()->to("/admin/attendance/list?user_id={$attendance->user_id}&year=" . Carbon::parse($attendance->work_date)->year . "&month=" . Carbon::parse($attendance->work_date)->month)
+            ->with('success', '勤怠情報を登録しました');
     }
 
     public function store(UpdateAttendanceRequest $request)
@@ -143,8 +152,8 @@ class AdminAttendanceController extends Controller
             ]
         );
 
-        return redirect()->route('admin.attendance.admin_submitted', ['id' => $attendance->id])
-            ->with('success', '勤怠情報を登録・申請しました');
+        return redirect()->to("/admin/attendance/list?user_id={$attendance->user_id}&year=" . Carbon::parse($attendance->work_date)->year . "&month=" . Carbon::parse($attendance->work_date)->month)
+            ->with('success', '勤怠情報を登録しました');
     }
 
     public function submitted($id)
@@ -154,7 +163,12 @@ class AdminAttendanceController extends Controller
             'breakTimes' => fn($q) => $q->orderBy('started_at')
         ])->findOrFail($id);
 
-        return view('admin.admin_submitted', compact('attendance'));
+        $requestModel = \App\Models\Request::where('attendance_id', $attendance->id)->first();
+
+        return view('admin.admin_submitted', [
+            'attendance' => $attendance,
+            'request' => $requestModel,
+        ]);
     }
 
     public function list(Request $request)
