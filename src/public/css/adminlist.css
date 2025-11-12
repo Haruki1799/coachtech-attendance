@@ -113,3 +113,80 @@ body {
 .table td a:hover {
     text-decoration: underline;
 }
+
+/* PC対応（1400px〜1540px） */
+@media (min-width: 1400px) and (max-width: 1540px) {
+    .container {
+        max-width: 1100px;
+        padding: 0 30px;
+    }
+
+    .container h2 {
+        font-size: 22px;
+    }
+
+    .day-nav__center {
+        font-size: 20px;
+    }
+
+    .day-nav__button {
+        font-size: 15px;
+        padding: 8px 14px;
+    }
+
+    .table {
+        font-size: 15px;
+    }
+
+    .table th,
+    .table td {
+        padding: 14px 10px;
+    }
+}
+
+/* タブレット対応（768px〜850px） */
+@media (min-width: 768px) and (max-width: 850px) {
+    .container {
+        max-width: 100%;
+        margin: 20px auto;
+        padding: 0 16px;
+    }
+
+    .container h2 {
+        font-size: 18px;
+        padding-left: 8px;
+        margin-bottom: 16px;
+    }
+
+    .day-nav {
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 12px;
+        padding: 10px;
+    }
+
+    .day-nav__center {
+        font-size: 16px;
+        gap: 4px;
+    }
+
+    .day-nav__button {
+        font-size: 13px;
+        padding: 6px 10px;
+        white-space: nowrap;
+    }
+
+    .table {
+        font-size: 13px;
+        border-radius: 8px;
+    }
+
+    .table th,
+    .table td {
+        padding: 10px 6px;
+    }
+
+    .table td a {
+        font-size: 13px;
+    }
+}

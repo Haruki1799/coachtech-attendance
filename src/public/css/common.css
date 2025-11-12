@@ -62,7 +62,7 @@ vertical-align: middle;
 border: none;
 background: transparent;
 color: #fff;
-width: 150px;
+width: 140px;
 height: 40px;
 font-size: 16px;
 cursor: pointer;
@@ -92,5 +92,42 @@ vertical-align: middle;
 
     .header-nav {
     gap: 48px;
+    }
+}
+
+/* タブレット対応（768px〜850px） */
+@media (min-width: 768px) and (max-width: 850px) {
+    .header__inner {
+        padding: 16px 12px;
+    }
+
+
+    .header-search {
+        margin: 0;
+    }
+
+    .search-input {
+        max-width: 100%;
+        height: 44px;
+        font-size: 14px;
+    }
+
+    .header-nav {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 16px;
+    }
+
+    .header-nav__link--mypage,
+    .header-nav__link--login,
+    .header-nav__link--listing {
+        font-size: 14px;
+        padding: 8px 12px;
+    }
+
+    .header-nav__button {
+        width: auto;
+        height: 36px;
+        font-size: 14px;
     }
 }

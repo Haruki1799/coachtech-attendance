@@ -101,3 +101,72 @@ body {
 .btn-break-end:hover {
     background-color: #f5f5f5;
 }
+
+/* PC対応（1400px〜1540px） */
+@media (min-width: 1400px) and (max-width: 1540px) {
+    .container {
+        padding: 60px 80px;
+    }
+
+    .time {
+        font-size: 56px;
+    }
+
+    .date {
+        font-size: 28px;
+    }
+
+    .status {
+        font-size: 20px;
+    }
+
+    .btn-attendance-start,
+    .btn-attendance-end,
+    .btn-break-start,
+    .btn-break-end {
+        font-size: 18px;
+        min-width: 160px;
+    }
+}
+
+/* タブレット対応（768px〜850px） */
+@media (min-width: 768px) and (max-width: 850px) {
+    .container {
+        width: 100%;
+        height: auto;
+        padding: 40px 20px;
+        box-sizing: border-box;
+    }
+
+    .time {
+        font-size: 44px;
+    }
+
+    .date {
+        font-size: 22px;
+    }
+
+    .status {
+        font-size: 18px;
+        padding: 8px 16px;
+    }
+
+    .button-group {
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+
+    .btn-attendance-start,
+    .btn-attendance-end,
+    .btn-break-start,
+    .btn-break-end {
+        font-size: 15px;
+        min-width: 130px;
+        padding: 10px 20px;
+    }
+
+    .message {
+        font-size: 16px;
+        margin-top: 10px;
+    }
+}
