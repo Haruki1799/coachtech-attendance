@@ -37,7 +37,7 @@ class ClockOutTest extends TestCase
         $attendance = Attendance::create([
             'user_id' => $this->user->id,
             'work_date' => now()->toDateString(),
-            'started_at' => now()->subHours(8), // 9:00 出勤
+            'started_at' => now()->subHours(8),
             'ended_at' => null,
         ]);
 

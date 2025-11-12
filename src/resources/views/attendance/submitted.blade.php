@@ -49,8 +49,20 @@
     </table>
 
 
+    @php
+    $request = $attendance->request;
+    @endphp
+
+    @if ($request)
     <div class="alert-warning">
+        @if ($request->status === 'pending')
         ※承認待ちのため修正はできません。
+        @elseif ($request->status === 'approved')
+        ※承認済みです。修正は不要です。
+        @elseif ($request->status === 'rejected')
+        ※差し戻し済みです。修正が必要です。
+        @endif
     </div>
+    @endif
 </div>
 @endsection

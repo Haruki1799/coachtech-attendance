@@ -102,6 +102,6 @@ Route::middleware(['auth:admin'])->group(function () {
     Route::get('/admin/request/list/{id}', [AdminRequestController::class, 'show'])->name('admin.request.show');
 });
 
-Route::middleware(['auth:admin'])->group(function () {
+Route::middleware(['web', 'auth:admin'])->group(function () {
     Route::put('/admin/request/approve/{id}', [AdminRequestController::class, 'approve'])->name('admin.request.approve');
 });
