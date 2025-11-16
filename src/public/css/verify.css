@@ -55,3 +55,53 @@
     text-decoration: none;
 }
 
+/* PC対応（1400px〜1540px） */
+@media (min-width: 1400px) and (max-width: 1540px) {
+    .verify__content {
+        max-width: 1200px;
+        padding: 80px;
+    }
+
+    .verify__heading h2 {
+        font-size: 26px;
+        margin-bottom: 24px;
+    }
+
+    .verify__button-link {
+        font-size: 15px;
+        padding: 12px 24px;
+    }
+
+    .verify__button {
+        font-size: 15px;
+        margin: 24pt;
+    }
+}
+
+/* タブレット対応（768px〜850px） */
+@media (min-width: 768px) and (max-width: 850px) {
+    .verify__content {
+        max-width: 100%;
+        padding: 40px 20px;
+    }
+
+    .verify__heading h2 {
+        font-size: 20px;
+        margin-bottom: 16px;
+    }
+
+    .verify__alert {
+        font-size: 14px;
+    }
+
+    .verify__button-link {
+        font-size: 13px;
+        padding: 8px 16px;
+        border-radius: 6px;
+    }
+
+    .verify__button {
+        font-size: 13px;
+        margin: 20pt;
+    }
+}
