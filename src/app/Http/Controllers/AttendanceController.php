@@ -134,9 +134,13 @@ class AttendanceController extends Controller
         $attendance = null;
 
         if ($id) {
-            $attendance = Attendance::with(['breakTimes' => fn($q) => $q->orderBy('started_at')])
-                ->where('user_id', auth()->id())
-                ->find($id);
+            $query = Attendance::with(['breakTimes' => fn($q) => $q->orderBy('started_at')]);
+
+            if (auth()->user()->role !== 'admin') {
+                $query->where('user_id', auth()->id());
+            }
+
+            $attendance = $query->find($id);
         }
 
         if (!$attendance) {
@@ -154,6 +158,15 @@ class AttendanceController extends Controller
     // 勤怠修正・申請
     public function update(UpdateAttendanceRequest $request, $id)
     {
+
+$query = Attendance::with('breakTimes');
+
+if (auth()->check() && auth()->user()->role !== 'admin') {
+    $query->where('user_id', auth()->id());
+}
+
+$attendance = $query->findOrFail($id);
+
         // 勤怠レコードを id ベースで取得（user_id も確認）
         $attendance = Attendance::with('breakTimes')
             ->where('user_id', auth()->id())

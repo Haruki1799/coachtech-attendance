@@ -11,7 +11,7 @@ class AttendancesTableSeeder extends Seeder
 {
     public function run()
     {
-        User::all()->each(function ($user) {
+        User::where('role', 'user')->get()->each(function ($user) {
 
             for ($i = 0; $i < 30; $i++) {
                 $date = Carbon::today()->subDays($i);

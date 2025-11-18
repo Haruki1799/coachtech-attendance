@@ -19,6 +19,8 @@ class CreateAttendancesTable extends Migration
             $table->date('work_date')->index();
             $table->timestamp('started_at')->nullable();
             $table->timestamp('ended_at')->nullable();
+            $table->boolean('is_submitted')->default(false);
+            $table->text('note')->nullable();
             $table->timestamps();
         });
     }

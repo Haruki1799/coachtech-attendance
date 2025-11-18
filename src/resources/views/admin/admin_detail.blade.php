@@ -10,13 +10,17 @@
 
     <form method="POST"
         action="{{ isset($attendance) && $attendance->id
-        ? route('attendance.detail.update', ['id' => $attendance->id])
-        : route('attendance.store') }}">
+        ? (auth()->check() && auth()->user()->role === 'admin'
+            ? route('admin.attendance.update', ['id' => $attendance->id])
+            : route('attendance.detail.update', ['id' => $attendance->id]))
+        : (auth()->check() && auth()->user()->role === 'admin'
+            ? route('admin.attendance.store')
+            : route('attendance.store')) }}">
         @csrf
         @if(isset($attendance) && $attendance->id)
         @method('PUT')
         @endif
-
+        <input type="hidden" name="user_id" value="{{ $attendance->user_id ?? auth()->id() }}">
         <table class="detail-table">
             <tbody>
                 <tr>

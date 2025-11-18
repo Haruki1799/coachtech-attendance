@@ -51,6 +51,6 @@ class Attendance extends Model
 
     public function request()
     {
-        return $this->hasOne(Request::class);
+        return $this->hasOne(AttendanceRequest::class, 'attendance_id');
     }
 }
