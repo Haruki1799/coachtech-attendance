@@ -69,11 +69,11 @@ MAIL_FROM_NAME="${APP_NAME}"
 
 シーディング実行後、以下のテストユーザーが登録されています：
 
-| ユーザー名       | メールアドレス    | パスワード |ロール  |
-| ---------------- | ----------------- | ---------- || ------- |
-| テストユーザ   | test@gmail.com  | password   |user   |
-| テストユーザ 2 | test2@gmail.com | password   |user   |
-| 管理者 | root@gmail.com | password   |admin   |
+| ユーザー名   | メールアドレス    | パスワード | ロール |
+| ------------ | ----------------- | ---------- | ------ |
+| テストユーザ | test@gmail.com    | password   | user   |
+| テストユーザ2| test2@gmail.com   | password   | user   |
+| 管理者       | root@gmail.com    | password   | admin  |
 
 > ※パスワードはすべて暗号化されて登録されています。ログイン時は上記の平文を使用してください。
 
