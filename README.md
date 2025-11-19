@@ -77,6 +77,10 @@ MAIL_FROM_NAME="${APP_NAME}"
 
 > ※パスワードはすべて暗号化されて登録されています。ログイン時は上記の平文を使用してください。
 
+## 勤怠情報（初期データ）
+
+シーディング実行後、各ユーザー毎に、過去30日分の情報が登録されます：
+
 ## PHPUnitテストについて
 
 以下のコマンド:
@@ -91,7 +95,6 @@ docker-compose exec php bash
 php artisan migrate:fresh --env=testing
 php artisan config:clear
 php artisan migrate --env=testing
-
 ```
 
 ## 使用技術(実行環境)
