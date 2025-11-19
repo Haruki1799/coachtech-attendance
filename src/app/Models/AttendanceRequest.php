@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class AttendanceRequest extends Model
 {
+    protected $table = 'requests'; // 実際のテーブル名を指定
+
     protected $fillable = [
         'attendance_id',
         'user_id',
@@ -13,6 +15,10 @@ class AttendanceRequest extends Model
         'reason',
         'status',
         'requested_at',
+    ];
+
+    protected $casts = [
+        'target_date' => 'date',
     ];
 
     public function attendance()
@@ -23,5 +29,15 @@ class AttendanceRequest extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function getStatusLabelAttribute()
+    {
+        return match ($this->status) {
+            'pending' => '申請待ち',
+            'approved' => '承認済み',
+            'rejected' => '差戻し',
+            default => '不明',
+        };
     }
 }

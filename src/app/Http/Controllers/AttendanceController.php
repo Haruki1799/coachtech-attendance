@@ -7,7 +7,7 @@ use App\Models\Attendance;
 use App\Models\BreakTime;
 use Carbon\Carbon;
 use App\Http\Requests\UpdateAttendanceRequest;
-use App\Models\Request as AttendanceRequest;
+use App\Models\AttendanceRequest as AttendanceRequest;
 
 class AttendanceController extends Controller
 {

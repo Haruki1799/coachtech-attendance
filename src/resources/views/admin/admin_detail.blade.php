@@ -8,7 +8,7 @@
 <div class="container">
     <h2>勤怠詳細</h2>
 
-    <form method="POST"
+    <form method="POST" novalidate
         action="{{ isset($attendance) && $attendance->id
         ? (auth()->check() && auth()->user()->role === 'admin'
             ? route('admin.attendance.update', ['id' => $attendance->id])

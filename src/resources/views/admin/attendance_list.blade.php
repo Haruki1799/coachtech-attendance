@@ -75,8 +75,8 @@
                 <td>{{ $totalFormatted }}</td>
                 <td>
                     <a href="{{ $attendance
-                            ? route('admin.attendance.admin_detail', ['id' => $attendance->id])
-                            : route('admin.attendance.admin_detail', ['user_id' => $user->id, 'date' => $day->format('Y-m-d')]) }}">
+                            ? route('admin.attendance.detail', ['id' => $attendance->id])
+                            : route('admin.attendance.detail', ['user_id' => $user->id, 'date' => $day->format('Y-m-d')]) }}">
                         詳細
                     </a>
                 </td>

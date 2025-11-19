@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Request as StampCorrectionRequest;
+use App\Models\AttendanceRequest as StampCorrectionRequest;
 use Illuminate\Support\Facades\Auth;
 
 class RequestController extends Controller
