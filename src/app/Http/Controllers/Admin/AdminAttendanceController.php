@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Attendance;
 use App\Models\BreakTime;
 use App\Models\User;
-use App\Models\Request as AttendanceRequest;
+use App\Models\AttendanceRequest as AttendanceRequest;
 use App\Http\Requests\UpdateAttendanceRequest;
 use Carbon\Carbon;
 use Symfony\Component\HttpFoundation\StreamedResponse;
@@ -163,7 +163,7 @@ class AdminAttendanceController extends Controller
             'breakTimes' => fn($q) => $q->orderBy('started_at')
         ])->findOrFail($id);
 
-        $requestModel = \App\Models\Request::where('attendance_id', $attendance->id)->first();
+        $requestModel = \App\Models\AttendanceRequest::where('attendance_id', $attendance->id)->first();
 
         return view('admin.admin_submitted', [
             'attendance' => $attendance,

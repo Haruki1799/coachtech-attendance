@@ -15,12 +15,12 @@ class UpdateAttendanceRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'started_at' => ['required', 'date_format:H:i'],
-            'ended_at' => ['nullable', 'date_format:H:i'],
+            'started_at' => ['required', 'sometimes', 'date_format:H:i'],
+            'ended_at' => ['nullable', 'sometimes', 'date_format:H:i'],
             'note' => ['required', 'string'],
 
-            'breaks.*.started_at' => ['nullable', 'date_format:H:i'],
-            'breaks.*.ended_at' => ['nullable', 'date_format:H:i'],
+            'breaks.*.started_at' => ['nullable', 'sometimes', 'date_format:H:i'],
+            'breaks.*.ended_at' => ['nullable', 'sometimes', 'date_format:H:i'],
         ];
     }
 

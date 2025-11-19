@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Request as StampCorrectionRequest;
+use App\Models\AttendanceRequest as StampCorrectionRequest;
 
 class AdminRequestController extends Controller
 {

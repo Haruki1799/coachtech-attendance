@@ -8,7 +8,7 @@
 <div class="container">
     <h2>勤怠詳細</h2>
 
-    <form method="POST"
+    <form method="POST" novalidate
         action="{{ isset($attendance) && $attendance->id
         ? route('attendance.detail.update', ['id' => $attendance->id])
         : route('attendance.store') }}">
