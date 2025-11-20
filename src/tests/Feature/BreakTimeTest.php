@@ -29,8 +29,8 @@ class BreakTimeTest extends TestCase
         ]);
     }
 
-    /** @test */
-    public function 出勤中ユーザーが休憩入ボタンを見て休憩できる()
+
+    public function test_user_can_see_breakin_button_and_start_break()
     {
         $this->actingAs($this->user);
 
@@ -59,8 +59,8 @@ class BreakTimeTest extends TestCase
         ]);
     }
 
-    /** @test */
-    public function 出勤中ユーザーが休憩入と休憩戻を行い再び休憩入ボタンが表示される()
+
+    public function test_user_can_breakin_and_breakout_and_see_breakin_button_again()
     {
         $this->actingAs($this->user);
 
@@ -97,8 +97,8 @@ class BreakTimeTest extends TestCase
         $response->assertSee('休憩入');
         $response->assertSee('btn-break-start');
     }
-    /** @test */
-    public function 出勤中ユーザーが休憩入と休憩戻の処理を行える()
+
+    public function test_user_can_perform_breakin_and_breakout_process()
     {
         $this->actingAs($this->user);
 
@@ -106,7 +106,7 @@ class BreakTimeTest extends TestCase
         $attendance = Attendance::create([
             'user_id' => $this->user->id,
             'work_date' => now()->toDateString(),
-            'started_at' => now()->subHour(), // 9:00 出勤
+            'started_at' => now()->subHour(),
             'ended_at' => null,
         ]);
 
@@ -135,8 +135,8 @@ class BreakTimeTest extends TestCase
             'ended_at' => now()->toDateTimeString(),
         ]);
     }
-    /** @test */
-    public function 出勤中ユーザーが2回目の休憩に入り休憩戻ボタンが表示される()
+
+    public function test_user_can_enter_second_break_and_see_breakout_button()
     {
         $this->actingAs($this->user);
 
@@ -144,7 +144,7 @@ class BreakTimeTest extends TestCase
         $attendance = Attendance::create([
             'user_id' => $this->user->id,
             'work_date' => now()->toDateString(),
-            'started_at' => now()->subHour(), // 9:00 出勤
+            'started_at' => now()->subHour(),
             'ended_at' => null,
         ]);
 
@@ -164,8 +164,7 @@ class BreakTimeTest extends TestCase
         $response->assertSee('btn-break-end');
     }
 
-    /** @test */
-    public function 勤務中ユーザーが休憩処理を行い勤怠一覧で休憩日を確認できる()
+    public function test_user_can_perform_break_and_see_break_date_in_attendance_list()
     {
         $this->actingAs($this->user);
 

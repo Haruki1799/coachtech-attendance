@@ -28,8 +28,7 @@ class ClockOutTest extends TestCase
         ]);
     }
 
-    /** @test */
-    public function 勤務中ユーザーが退勤ボタンを見て退勤できる()
+    public function test_user_can_see_clockout_button_and_clockout()
     {
         $this->actingAs($this->user);
 
@@ -58,8 +57,7 @@ class ClockOutTest extends TestCase
         ]);
     }
 
-    /** @test */
-    public function 勤務外ユーザーが出勤と退勤を行い勤怠一覧で退勤日を確認できる()
+    public function test_user_can_clockin_and_clockout_and_see_clockout_date_in_list()
     {
         $this->actingAs($this->user);
 

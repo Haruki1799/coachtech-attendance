@@ -5,7 +5,7 @@ body {
     margin: 0;
     padding: 0;
     font-family: 'Helvetica Neue', 'Arial', sans-serif;
-    background-color: #f9f9f9;
+    background-color: #f5f5f5;
 }
 
 /* 勤怠画面の中央配置と余白 */
@@ -18,7 +18,7 @@ body {
     align-items: center;
     padding: 40px 30px;
     box-sizing: border-box;
-    background-color: #ffffff;
+    background-color: #f5f5f5;
 }
 
 /* ステータス表示ボタン */
@@ -27,9 +27,10 @@ body {
     font-weight: bold;
     padding: 10px 20px;
     margin-bottom: 30px;
-    border-radius: 18px;
-    background-color: #f0f0f0;
-    border: 1px solid #ccc;
+    border-radius: 50px;
+    background-color: #C8C8C8;
+    color: #696969;
+    border: 1px solid #f5f5f5;
 }
 
 /* 日付と時間表示 */
@@ -70,7 +71,7 @@ body {
     min-width: 140px;
     font-size: 16px;
     font-weight: bold;
-    border-radius: 12px;
+    border-radius: 20px;
     cursor: pointer;
     text-align: center;
     transition: background-color 0.2s ease;
@@ -79,7 +80,7 @@ body {
 /* 出勤・退勤ボタン */
 .btn-attendance-start,
 .btn-attendance-end {
-    background-color: #333;
+    background-color: #000;
     color: #fff;
     border: none;
 }
@@ -93,7 +94,7 @@ body {
 .btn-break-start,
 .btn-break-end {
     background-color: #FFFFFF;
-    color: #333;
+    color: #000;
     border: none;
 }
 
