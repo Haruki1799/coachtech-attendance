@@ -61,7 +61,7 @@ class AdminApprovelTest extends TestCase
             ]);
 
             // 修正申請を作成（status: pending）
-            \App\Models\Request::create([
+            \App\Models\AttendanceRequest::create([
                 'user_id' => $user->id,
                 'attendance_id' => $attendance->id,
                 'target_date' => $attendance->work_date,
@@ -72,7 +72,7 @@ class AdminApprovelTest extends TestCase
         }
 
         // 承認待ちタブにアクセス
-        $response = $this->get('/admin/request/list?status=pending');
+        $response = $this->get('/admin/stamp_correction_request/list?status=pending');
 
         $response->assertStatus(200);
 
@@ -117,7 +117,7 @@ class AdminApprovelTest extends TestCase
             ]);
 
             // 承認済みの修正申請を作成
-            \App\Models\Request::create([
+            \App\Models\AttendanceRequest::create([
                 'user_id' => $user->id,
                 'attendance_id' => $attendance->id,
                 'target_date' => $attendance->work_date,
@@ -128,7 +128,7 @@ class AdminApprovelTest extends TestCase
         }
 
         // 承認済みタブにアクセス
-        $response = $this->get('/admin/request/list?status=approved');
+        $response = $this->get('/admin/stamp_correction_request/list?status=approved');
 
         $response->assertStatus(200);
 
@@ -169,7 +169,7 @@ class AdminApprovelTest extends TestCase
         ]);
 
         // 修正申請作成
-        $request = \App\Models\Request::create([
+        $request = \App\Models\AttendanceRequest::create([
             'user_id' => $user->id,
             'attendance_id' => $attendance->id,
             'target_date' => $attendance->work_date,
@@ -218,7 +218,7 @@ class AdminApprovelTest extends TestCase
         ]);
 
         // 修正申請（承認対象だが勤怠は変更しない）
-        $request = \App\Models\Request::create([
+        $request = \App\Models\AttendanceRequest::create([
             'user_id' => $user->id,
             'attendance_id' => $attendance->id,
             'target_date' => $attendance->work_date,

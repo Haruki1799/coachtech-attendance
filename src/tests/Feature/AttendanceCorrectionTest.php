@@ -287,7 +287,7 @@ class AttendanceCorrectionTest extends TestCase
         // 2. 管理者としてログインし、申請を承認
         $this->actingAs($this->admin, 'admin');
 
-        $requests = \App\Models\Request::where('user_id', $this->user->id)->get();
+        $requests = \App\Models\AttendanceRequest::where('user_id', $this->user->id)->get();
 
         foreach ($requests as $request) {
             $this->put(route('admin.request.approve', ['id' => $request->id]));
@@ -333,7 +333,7 @@ class AttendanceCorrectionTest extends TestCase
         $response->assertSee('詳細');
 
         // DBから申請IDを取得
-        $request = \App\Models\Request::where('attendance_id', $attendance->id)->first();
+        $request = \App\Models\AttendanceRequest::where('attendance_id', $attendance->id)->first();
 
         // 「詳細」ボタンのリンク先にアクセス
         $detailResponse = $this->get(route('request.show', ['id' => $request->id]));

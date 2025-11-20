@@ -52,7 +52,7 @@ class AdminAttendanceDetailTest extends TestCase
         ]);
 
         // 管理者が勤怠詳細ページにアクセス
-        $response = $this->get(route('admin.attendance.admin_detail', ['id' => $attendance->id]));
+        $response = $this->get(route('admin.attendance.detail', ['id' => $attendance->id]));
 
         $response->assertStatus(200);
 
@@ -90,7 +90,7 @@ class AdminAttendanceDetailTest extends TestCase
         ]);
 
         // 不正な時間で更新リクエストを送信（出勤 > 退勤）
-        $response = $this->from(route('admin.attendance.admin_detail', ['id' => $attendance->id]))
+        $response = $this->from(route('admin.attendance.detail', ['id' => $attendance->id]))
             ->put(route('admin.attendance.update', ['id' => $attendance->id]), [
                 'user_id' => $user->id,
                 'work_date' => $date,
@@ -100,7 +100,7 @@ class AdminAttendanceDetailTest extends TestCase
             ]);
 
         // リダイレクトとバリデーションメッセージを確認
-        $response->assertRedirect(route('admin.attendance.admin_detail', ['id' => $attendance->id]));
+        $response->assertRedirect(route('admin.attendance.detail', ['id' => $attendance->id]));
         $response->assertSessionHasErrors([
             'started_at' => '出勤時間もしくは退勤時間が不適切な値です',
         ]);
@@ -131,7 +131,7 @@ class AdminAttendanceDetailTest extends TestCase
         ]);
 
         // 不正な休憩時間（開始が退勤後）で更新リクエストを送信
-        $response = $this->from(route('admin.attendance.admin_detail', ['id' => $attendance->id]))
+        $response = $this->from(route('admin.attendance.detail', ['id' => $attendance->id]))
             ->put(route('admin.attendance.update', ['id' => $attendance->id]), [
                 'user_id' => $user->id,
                 'work_date' => $date,
@@ -147,7 +147,7 @@ class AdminAttendanceDetailTest extends TestCase
             ]);
 
         // リダイレクトとバリデーションメッセージを確認
-        $response->assertRedirect(route('admin.attendance.admin_detail', ['id' => $attendance->id]));
+        $response->assertRedirect(route('admin.attendance.detail', ['id' => $attendance->id]));
         $response->assertSessionHasErrors([
             'breaks.0.started_at' => '休憩時間が不適切な値です',
         ]);
@@ -178,7 +178,7 @@ class AdminAttendanceDetailTest extends TestCase
         ]);
 
         // 不正な休憩終了時間（退勤後）で更新リクエストを送信
-        $response = $this->from(route('admin.attendance.admin_detail', ['id' => $attendance->id]))
+        $response = $this->from(route('admin.attendance.detail', ['id' => $attendance->id]))
             ->put(route('admin.attendance.update', ['id' => $attendance->id]), [
                 'user_id' => $user->id,
                 'work_date' => $date,
@@ -194,7 +194,7 @@ class AdminAttendanceDetailTest extends TestCase
             ]);
 
         // リダイレクトとバリデーションメッセージを確認
-        $response->assertRedirect(route('admin.attendance.admin_detail', ['id' => $attendance->id]));
+        $response->assertRedirect(route('admin.attendance.detail', ['id' => $attendance->id]));
         $response->assertSessionHasErrors([
             'breaks.0.ended_at' => '休憩時間もしくは退勤時間が不適切な値です',
         ]);
@@ -225,7 +225,7 @@ class AdminAttendanceDetailTest extends TestCase
         ]);
 
         // 備考未入力で保存処理を送信
-        $response = $this->from(route('admin.attendance.admin_detail', ['id' => $attendance->id]))
+        $response = $this->from(route('admin.attendance.detail', ['id' => $attendance->id]))
             ->put(route('admin.attendance.update', ['id' => $attendance->id]), [
                 'user_id' => $user->id,
                 'work_date' => $date,
@@ -235,7 +235,7 @@ class AdminAttendanceDetailTest extends TestCase
             ]);
 
         // リダイレクトとバリデーションメッセージを確認
-        $response->assertRedirect(route('admin.attendance.admin_detail', ['id' => $attendance->id]));
+        $response->assertRedirect(route('admin.attendance.detail', ['id' => $attendance->id]));
         $response->assertSessionHasErrors([
             'note' => '備考を記入してください',
         ]);
