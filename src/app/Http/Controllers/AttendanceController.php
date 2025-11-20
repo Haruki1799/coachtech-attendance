@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Attendance;
-use App\Models\BreakTime;
 use Carbon\Carbon;
 use App\Http\Requests\UpdateAttendanceRequest;
 use App\Models\AttendanceRequest as AttendanceRequest;

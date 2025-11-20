@@ -10,7 +10,7 @@
 @section('content')
 <div class="verify__content">
     <div class="verify__heading">
-        <h2>登録していメールアドレスに認証メールを送信しました。<br>
+        <h2>登録していメールアドレスに認証メールを送付しました。<br>
                 メール認証を完了してください。</h2>
     </div>
 
