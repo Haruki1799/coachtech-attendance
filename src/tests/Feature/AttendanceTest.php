@@ -8,7 +8,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use Carbon\Carbon;
 
-class ClockOutTest extends TestCase
+class AttendanceTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -18,8 +18,6 @@ class ClockOutTest extends TestCase
     {
         parent::setUp();
 
-        Carbon::setTestNow(Carbon::parse('2025-10-27 17:00:00'));
-
         $this->user = User::create([
             'name' => 'テストユーザ',
             'email' => 'test@gmail.com',
@@ -28,33 +26,55 @@ class ClockOutTest extends TestCase
         ]);
     }
 
-    public function test_user_can_clockout_when_working()
+    /** @test */
+    public function test_user_can_see_clockin_button_and_clockin()
     {
         $this->actingAs($this->user);
 
-        $attendance = Attendance::create([
+        $this->assertDatabaseMissing('attendances', [
             'user_id' => $this->user->id,
             'work_date' => now()->toDateString(),
-            'started_at' => now()->subHours(8),
-            'ended_at' => null,
         ]);
 
         $response = $this->get('/attendance');
         $response->assertStatus(200);
-        $response->assertSee('退勤');
-        $response->assertSee('btn-attendance-end');
+        $response->assertSee('出勤');
 
-        $clockoutResponse = $this->post('/attendance/clockout');
-        $clockoutResponse->assertRedirect('/attendance');
+        $clockinResponse = $this->post('/attendance/clockin');
+        $clockinResponse->assertRedirect('/attendance');
 
         $this->assertDatabaseHas('attendances', [
-            'id' => $attendance->id,
-            'ended_at' => now()->toDateTimeString(),
+            'user_id' => $this->user->id,
+            'work_date' => now()->toDateString(),
         ]);
     }
 
-    public function test_user_can_clockin_and_clockout_and_see_attendance_list()
+    /** @test */
+    public function test_user_who_already_clockedout_cannot_see_clockin_button()
     {
+        Carbon::setTestNow(Carbon::parse('2025-10-27 09:00:00'));
+
+        $this->actingAs($this->user);
+
+        Attendance::create([
+            'user_id' => $this->user->id,
+            'work_date' => now()->toDateString(),
+            'started_at' => now()->subHours(8),
+            'ended_at' => now()->subHours(1),
+        ]);
+
+        $response = $this->get('/attendance');
+        $response->assertStatus(200);
+
+        $response->assertDontSee('btn-attendance-start');
+        $response->assertDontSee('出勤');
+    }
+
+    /** @test */
+    public function test_user_can_clockin_and_see_clockin_date_in_attendance_list()
+    {
+        Carbon::setTestNow(Carbon::parse('2025-10-27 09:00:00'));
+
         $this->actingAs($this->user);
 
         $this->assertDatabaseMissing('attendances', [
@@ -64,20 +84,10 @@ class ClockOutTest extends TestCase
 
         $this->post('/attendance/clockin')->assertRedirect('/attendance');
 
-        $attendance = Attendance::where('user_id', $this->user->id)
-            ->whereDate('work_date', now()->toDateString())
-            ->first();
-
-        $this->assertNotNull($attendance);
-        $this->assertNotNull($attendance->started_at);
-        $this->assertNull($attendance->ended_at);
-
-        Carbon::setTestNow(Carbon::parse('2025-10-27 18:00:00'));
-        $this->post('/attendance/clockout')->assertRedirect('/attendance');
-
-        $attendance->refresh();
-        $this->assertNotNull($attendance->ended_at);
-        $this->assertEquals(now()->toDateTimeString(), $attendance->ended_at->toDateTimeString());
+        $this->assertDatabaseHas('attendances', [
+            'user_id' => $this->user->id,
+            'work_date' => now()->toDateString(),
+        ]);
 
         $response = $this->get('/attendance/list?year=2025&month=10');
         $response->assertStatus(200);
