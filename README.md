@@ -22,7 +22,7 @@ mysql:
 
 1. `docker-compose exec php bash`
 2. `composer install`
-3. 「.env.example」ファイルを 「.env」ファイルに命名を変更。または、新しく.env ファイルを作成
+3. `cp .env.example .env`
 4. .env に以下の環境変数を追加
 
 ```text
@@ -94,7 +94,6 @@ create database demo_test;
 docker-compose exec php bash
 php artisan migrate:fresh --env=testing
 php artisan config:clear
-php artisan migrate --env=testing
 ```
 
 ## 使用技術(実行環境)
