@@ -31,10 +31,10 @@ class AttendanceDetailTest extends TestCase
 
     public function test_attendance_detail_shows_logged_in_user_name()
     {
-        // 1. ログイン
+        // ログイン
         $this->actingAs($this->user);
 
-        // 2. 勤怠データを登録（user_id付き）
+        // 勤怠データを登録（user_id付き）
         $attendance = Attendance::create([
             'user_id' => $this->user->id,
             'work_date' => Carbon::now()->toDateString(),
@@ -42,23 +42,23 @@ class AttendanceDetailTest extends TestCase
             'ended_at' => Carbon::now()->setTime(18, 0),
         ]);
 
-        // 3. 詳細ページへアクセス
+        // 詳細ページへアクセス
         $response = $this->get(route('attendance.detail', ['id' => $attendance->id]));
 
-        // 4. 名前欄にログインユーザーの名前が表示されていることを確認
+        // 名前欄にログインユーザーの名前が表示されていることを確認
         $response->assertStatus(200);
         $response->assertSee($this->user->name);
     }
 
     public function test_attendance_detail_shows_today_as_work_date()
     {
-        // 1. ログイン
+        // ログイン
         $this->actingAs($this->user);
 
-        // 2. 実行日（今日）を取得
+        // 実行日（今日）を取得
         $today = Carbon::now();
 
-        // 3. 勤怠データを登録
+        // 勤怠データを登録
         $attendance = Attendance::create([
             'user_id' => $this->user->id,
             'work_date' => $today->toDateString(),
@@ -66,10 +66,10 @@ class AttendanceDetailTest extends TestCase
             'ended_at' => $today->copy()->setTime(18, 0),
         ]);
 
-        // 4. 詳細ページへアクセス
+        // 詳細ページへアクセス
         $response = $this->get(route('attendance.detail', ['id' => $attendance->id]));
 
-        // 5. 日付欄に今日の日付が表示されていることを確認
+        // 日付欄に今日の日付が表示されていることを確認
         $response->assertStatus(200);
         $response->assertSee($today->format('Y年'));
         $response->assertSee($today->format('n月j日'));
@@ -78,14 +78,14 @@ class AttendanceDetailTest extends TestCase
 
     public function test_attendance_detail_shows_correct_clock_times()
     {
-        // 1. ログイン
+        // ログイン
         $this->actingAs($this->user);
 
-        // 2. 出勤・退勤時間を定義
+        // 出勤・退勤時間を定義
         $startTime = Carbon::now()->setTime(9, 15);
         $endTime = Carbon::now()->setTime(18, 45);
 
-        // 3. 勤怠データを登録
+        // 勤怠データを登録
         $attendance = Attendance::create([
             'user_id' => $this->user->id,
             'work_date' => Carbon::now()->toDateString(),
@@ -93,10 +93,10 @@ class AttendanceDetailTest extends TestCase
             'ended_at' => $endTime,
         ]);
 
-        // 4. 詳細ページへアクセス
+        // 詳細ページへアクセス
         $response = $this->get(route('attendance.detail', ['id' => $attendance->id]));
 
-        // 5. 出勤・退勤欄に打刻時間が表示されていることを確認
+        // 出勤・退勤欄に打刻時間が表示されていることを確認
         $response->assertStatus(200);
         $response->assertSee('value="' . $startTime->format('H:i') . '"', false);
         $response->assertSee('value="' . $endTime->format('H:i') . '"', false);
@@ -104,10 +104,10 @@ class AttendanceDetailTest extends TestCase
 
     public function test_attendance_detail_shows_break_time_correctly()
     {
-        // 1. ログイン
+        // ログイン
         $this->actingAs($this->user);
 
-        // 2. 勤怠データを登録
+        // 勤怠データを登録
         $attendance = Attendance::create([
             'user_id' => $this->user->id,
             'work_date' => Carbon::now()->toDateString(),
@@ -115,7 +115,7 @@ class AttendanceDetailTest extends TestCase
             'ended_at' => Carbon::now()->setTime(18, 0),
         ]);
 
-        // 3. 休憩時間を登録（例：12:00〜12:45）
+        // 休憩時間を登録（例：12:00〜12:45）
         $breakStart = Carbon::now()->setTime(12, 0);
         $breakEnd = Carbon::now()->setTime(12, 45);
 
@@ -125,10 +125,10 @@ class AttendanceDetailTest extends TestCase
             'ended_at' => $breakEnd,
         ]);
 
-        // 4. 詳細ページへアクセス
+        // 詳細ページへアクセス
         $response = $this->get(route('attendance.detail', ['id' => $attendance->id]));
 
-        // 5. 休憩欄に打刻時間が表示されていることを確認
+        // 休憩欄に打刻時間が表示されていることを確認
         $response->assertStatus(200);
         $response->assertSee('value="' . $breakStart->format('H:i') . '"', false);
         $response->assertSee('value="' . $breakEnd->format('H:i') . '"', false);
