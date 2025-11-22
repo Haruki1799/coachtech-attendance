@@ -81,7 +81,7 @@ class AdminAttendanceListTest extends TestCase
         $this->actingAs($this->admin, 'admin');
 
         // 今日の日付（表示形式に合わせて）
-        $todayFormatted = now()->format('Y年m月d日'); // 例：2025年11月11日
+        $todayFormatted = now()->format('Y年m月d日');
 
         // 勤怠一覧画面にアクセス
         $response = $this->get(route('admin.list'));
