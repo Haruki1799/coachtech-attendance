@@ -57,12 +57,12 @@ class AttendanceCorrectionTest extends TestCase
             ]);
 
         $response->assertStatus(302);
-        $response->assertSessionHasErrors(['started_at']);
+        $response->assertSessionHasErrors(['time_range']);
 
         $errors = session('errors');
         $this->assertEquals(
             '出勤時間もしくは退勤時間が不適切な値です',
-            $errors->first('started_at')
+            $errors->first('time_range')
         );
     }
 

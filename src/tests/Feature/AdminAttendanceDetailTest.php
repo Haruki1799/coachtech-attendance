@@ -102,7 +102,7 @@ class AdminAttendanceDetailTest extends TestCase
         // リダイレクトとバリデーションメッセージを確認
         $response->assertRedirect(route('admin.attendance.detail', ['id' => $attendance->id]));
         $response->assertSessionHasErrors([
-            'started_at' => '出勤時間もしくは退勤時間が不適切な値です',
+            'time_range' => '出勤時間もしくは退勤時間が不適切な値です',
         ]);
     }
 

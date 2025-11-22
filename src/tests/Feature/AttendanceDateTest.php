@@ -17,7 +17,6 @@ class AttendanceDateTest extends TestCase
     {
         parent::setUp();
 
-        // テストユーザーを明示的に作成
         $this->user = User::create([
             'name' => 'テストユーザ',
             'email' => 'test@gmail.com',
