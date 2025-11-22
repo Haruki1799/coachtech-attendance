@@ -41,17 +41,14 @@
                     <th>出勤・退勤</th>
                     <td>
                         <input type="time" name="started_at"
-                            value="{{ optional($attendance->started_at)->format('H:i') }}"
+                            value="{{ old('started_at', optional($attendance->started_at)->format('H:i')) }}"
                             style="width: 100px; margin-right: 12px;">
                         〜
                         <input type="time" name="ended_at"
-                            value="{{ optional($attendance->ended_at)->format('H:i') }}"
+                            value="{{ old('ended_at', optional($attendance->ended_at)->format('H:i')) }}"
                             style="width: 100px;">
 
-                        @error('started_at')
-                        <div class="error">{{ $message }}</div>
-                        @enderror
-                        @error('ended_at')
+                        @error('time_range')
                         <div class="error">{{ $message }}</div>
                         @enderror
                     </td>
@@ -63,11 +60,11 @@
                     <th>休憩{{ $index + 1 }}</th>
                     <td>
                         <input type="time" name="breaks[{{ $index }}][started_at]"
-                            value="{{ $break->started_at ? \Carbon\Carbon::parse($break->started_at)->format('H:i') : '' }}"
+                            value="{{ old("breaks.$index.started_at", $break->started_at ? $break->started_at->format('H:i') : '') }}"
                             style="width: 100px; margin-right: 12px;">
                         〜
                         <input type="time" name="breaks[{{ $index }}][ended_at]"
-                            value="{{ $break->ended_at ? \Carbon\Carbon::parse($break->ended_at)->format('H:i') : '' }}"
+                            value="{{ old("breaks.$index.ended_at", $break->ended_at ? $break->ended_at->format('H:i') : '') }}"
                             style="width: 100px;">
 
                         @error("breaks.$index.started_at")
@@ -86,9 +83,11 @@
                     <th>休憩{{ $nextIndex + 1 }}</th>
                     <td>
                         <input type="time" name="breaks[{{ $nextIndex }}][started_at]"
+                            value="{{ old("breaks.$nextIndex.started_at") }}"
                             style="width: 100px; margin-right: 12px;">
                         〜
                         <input type="time" name="breaks[{{ $nextIndex }}][ended_at]"
+                            value="{{ old("breaks.$nextIndex.ended_at") }}"
                             style="width: 100px;">
 
                         @error("breaks.$nextIndex.started_at")

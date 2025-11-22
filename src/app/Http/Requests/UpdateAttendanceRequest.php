@@ -52,10 +52,7 @@ class UpdateAttendanceRequest extends FormRequest
 
             if ($start && $end) {
                 if ($start->gt($end)) {
-                    $validator->errors()->add('started_at', '出勤時間もしくは退勤時間が不適切な値です');
-                }
-                if ($end->lt($start)) {
-                    $validator->errors()->add('ended_at', '出勤時間もしくは退勤時間が不適切な値です');
+                    $validator->errors()->add('time_range', '出勤時間もしくは退勤時間が不適切な値です');
                 }
             }
 

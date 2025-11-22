@@ -49,8 +49,8 @@ class Attendance extends Model
         return sprintf('%d:%02d', intdiv($netMinutes, 60), $netMinutes % 60);
     }
 
-    public function request()
+    public function requests()
     {
-        return $this->hasOne(AttendanceRequest::class, 'attendance_id');
+        return $this->hasMany(AttendanceRequest::class, 'attendance_id', 'id');
     }
 }

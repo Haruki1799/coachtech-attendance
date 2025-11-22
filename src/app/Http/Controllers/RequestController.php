@@ -34,6 +34,7 @@ class RequestController extends Controller
 
         return view('attendance.submitted', [
             'attendance' => $application->attendance,
+            'request'    => $application,
         ]);
     }
 }

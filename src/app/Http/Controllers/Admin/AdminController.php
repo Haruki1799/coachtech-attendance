@@ -35,7 +35,6 @@ class AdminController extends Controller
                 ->first();
         }
 
-        // 勤怠申請の状態を確認
         $requestStatus = \App\Models\AttendanceRequest::where('attendance_id', $attendance->id)
             ->where('status', 'pending')
             ->latest()

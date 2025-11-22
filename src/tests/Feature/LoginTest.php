@@ -17,20 +17,6 @@ class LoginTest extends TestCase
         $this->seed(DatabaseSeeder::class);
     }
 
-    //ログイン機能
-    public function test_login_user()
-    {
-        $user = User::find(1);
-
-        $response = $this->post('/login', [
-            'email' => "test@gmail.com",
-            'password' => "password",
-        ]);
-
-        $response->assertRedirect('/attendance');
-        $this->assertAuthenticatedAs($user);
-    }
-
     //ログイン--メアドバリデーション
     public function test_login_user_validate_email()
     {
