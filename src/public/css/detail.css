@@ -1,4 +1,3 @@
-/* 背景と基本レイアウト */
 body {
     background-color: #f2f2f2;
     margin: 0;
@@ -13,7 +12,6 @@ body {
     padding: 20px;
 }
 
-/* 見出し */
 h2 {
     font-size: 20px;
     margin-bottom: 24px;
@@ -21,7 +19,6 @@ h2 {
     padding-left: 10px;
 }
 
-/* テーブル全体 */
 .detail-table {
     width: 100%;
     border-collapse: separate;
@@ -29,11 +26,9 @@ h2 {
     margin-bottom: 20px;
     overflow: hidden;
     border-radius: 12px;
-    /* 全体の角丸 */
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
-/* テーブルのセル */
 .detail-table th,
 .detail-table td {
     background-color: #fff;
@@ -43,32 +38,27 @@ h2 {
     font-size: 16px;
 }
 
-/* 左上の角丸 */
 .detail-table tr:first-child th:first-child {
     border-top-left-radius: 12px;
 }
 
-/* 右上の角丸（右端が td の場合も対応） */
 .detail-table tr:first-child td:last-child,
 .detail-table tr:first-child th:last-child {
     border-top-right-radius: 12px;
 }
 
-/* 見出しセル */
 .detail-table th {
     width: 120px;
     font-weight: bold;
     background-color: #fff;
 }
 
-/* 日付の横並び */
 .date-inline {
     display: flex;
     gap: 100px;
     align-items: center;
 }
 
-/* 入力欄の統一スタイル */
 .detail-table input[type="time"],
 .detail-table textarea {
     font-size: 15px;
@@ -90,13 +80,11 @@ h2 {
     outline: none;
 }
 
-/* ボタン配置 */
 .detail-actions {
     text-align: right;
 }
 
-/* ボタンスタイル */
-.btn.btn-dark {
+.btn_edit {
     background-color: #000;
     color: #fff;
     padding: 8px 16px;
@@ -108,11 +96,10 @@ h2 {
     transition: background-color 0.2s ease;
 }
 
-.btn.btn-dark:hover {
+.btn_edit:hover {
     background-color: #333;
 }
 
-/*エラーメッセージ*/
 .error {
     color: #d00;
     font-size: 14px;
@@ -135,7 +122,7 @@ h2 {
         gap: 120px;
     }
 
-    .btn.btn-dark {
+    .btn_edit {
         font-size: 15px;
         padding: 10px 20px;
     }
@@ -166,7 +153,7 @@ h2 {
         padding: 10px 8px;
     }
 
-    .btn.btn-dark {
+    .btn_edit {
         font-size: 14px;
         padding: 8px 16px;
     }

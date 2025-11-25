@@ -38,7 +38,7 @@
                     <td>
                         <input type="time" name="started_at"
                             value="{{ old('started_at', optional($attendance->started_at)->format('H:i')) }}">
-                        〜
+                        　〜　
                         <input type="time" name="ended_at"
                             value="{{ old('ended_at', optional($attendance->ended_at)->format('H:i')) }}">
 
@@ -55,7 +55,7 @@
                     <td>
                         <input type="time" name="breaks[{{ $index }}][started_at]"
                             value="{{ old("breaks.$index.started_at", $break->started_at ? $break->started_at->format('H:i') : '') }}">
-                        〜
+                        　〜　
                         <input type="time" name="breaks[{{ $index }}][ended_at]"
                             value="{{ old("breaks.$index.ended_at", $break->ended_at ? $break->ended_at->format('H:i') : '') }}">
 
@@ -76,7 +76,7 @@
                     <td>
                         <input type="time" name="breaks[{{ $nextIndex }}][started_at]"
                             value="{{ old("breaks.$nextIndex.started_at") }}">
-                        〜
+                        　〜　
                         <input type="time" name="breaks[{{ $nextIndex }}][ended_at]"
                             value="{{ old("breaks.$nextIndex.ended_at") }}">
 
@@ -103,7 +103,7 @@
         </table>
 
         <div class="detail-actions">
-            <button type="submit" class="btn btn-dark">修正</button>
+            <button type="submit" class="btn_edit">修正</button>
         </div>
     </form>
 </div>
