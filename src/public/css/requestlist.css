@@ -2,7 +2,6 @@ body {
     background-color: #f2f2f2;
 }
 
-/* コンテナ全体 */
 .container {
     max-width: 960px;
     margin: 40px auto;
@@ -10,7 +9,6 @@ body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
-/* 見出し */
 .container h2 {
     font-size: 20px;
     margin-bottom: 20px;
@@ -19,7 +17,6 @@ body {
     padding-left: 10px;
 }
 
-/* ステータスタブ */
 .status-tabs {
     display: flex;
     gap: 100px;
@@ -50,7 +47,6 @@ body {
     margin-bottom: 20px;
 }
 
-/* テーブル基本設定 */
 .table {
     width: 100%;
     border-collapse: collapse;
@@ -60,7 +56,6 @@ body {
     overflow: hidden;
 }
 
-/* ヘッダー */
 .table th {
     padding: 12px 8px;
     border-bottom: 1px solid #ccc;
@@ -70,7 +65,6 @@ body {
     background-color: #fff;
 }
 
-/* 本文セル */
 .table td {
     padding: 10px 8px;
     border-top: 1px solid #ddd;
@@ -79,12 +73,10 @@ body {
     color: #444;
 }
 
-/* ホバー時の行ハイライト */
 .table tbody tr:hover {
     background-color: #e6f7ff;
 }
 
-/* 詳細リンク */
 .table td a {
     color: black;
     text-decoration: none;

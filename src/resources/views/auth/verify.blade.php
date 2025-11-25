@@ -25,7 +25,6 @@
         <a href="http://localhost:8025/#" target="_blank" class="verify__button-link">
             認証はこちらから
         </a>
-        
         <form method="POST" action="{{ route('verification.resend') }}">
             @csrf
             <button type="submit" class="verify__button">認証メールを再送する</button>

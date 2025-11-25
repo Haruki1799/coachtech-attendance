@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class AttendanceRequest extends Model
 {
-    protected $table = 'requests'; // 実際のテーブル名を指定
+    protected $table = 'requests';
 
     protected $fillable = [
         'attendance_id',
