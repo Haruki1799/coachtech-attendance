@@ -59,7 +59,7 @@ class AdminAttendanceDetailTest extends TestCase
         // 表示内容が勤怠データと一致していることを確認
         $response->assertSee('テストユーザ');
         $response->assertSee(\Carbon\Carbon::parse($date)->format('Y年'));
-        $response->assertSee(\Carbon\Carbon::parse($date)->format('m月d日'));
+        $response->assertSee(Carbon::parse($date)->format('n月j日'));
         $response->assertSee('09:00');
         $response->assertSee('18:00');
     }

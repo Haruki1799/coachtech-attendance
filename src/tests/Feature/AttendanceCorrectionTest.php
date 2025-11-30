@@ -342,7 +342,7 @@ class AttendanceCorrectionTest extends TestCase
         $detailResponse->assertStatus(200);
         $detailResponse->assertSee('詳細画面遷移テスト');
         $detailResponse->assertSee(\Carbon\Carbon::parse($date)->format('Y年'));
-        $detailResponse->assertSee(\Carbon\Carbon::parse($date)->format('m月d日'));
+        $detailResponse->assertSee(\Carbon\Carbon::parse($attendance->work_date)->format('n月j日'));
     }
 }
 
