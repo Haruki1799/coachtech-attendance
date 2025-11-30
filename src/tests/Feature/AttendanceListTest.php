@@ -34,9 +34,9 @@ class AttendanceListTest extends TestCase
         $this->actingAs($this->user);
 
         $dates = [
-            Carbon::today(),
-            Carbon::yesterday(),
-            Carbon::today()->subDays(2),
+            Carbon::create(now()->year, now()->month, 1),
+            Carbon::create(now()->year, now()->month, 2),
+            Carbon::create(now()->year, now()->month, 3),
         ];
 
         foreach ($dates as $date) {
@@ -67,7 +67,7 @@ class AttendanceListTest extends TestCase
         // 勤怠一覧ページへアクセス
         $response = $this->get(route('attendance.list'));
 
-        // 現在の年月を取得（例：2025/11）
+        // 現在の年月を取得
         $currentMonth = Carbon::now()->format('Y/m');
 
         // 表示内容に現在の月が含まれていることを確認
@@ -80,7 +80,7 @@ class AttendanceListTest extends TestCase
         // ユーザーログイン
         $this->actingAs($this->user);
 
-        // 前月の日付を取得（例：2025/10/15）
+        // 前月の日付を取得
         $previousMonthDate = Carbon::now()->subMonth()->day(15);
 
         // 勤怠一覧ページに前月指定でアクセス
@@ -89,7 +89,7 @@ class AttendanceListTest extends TestCase
             'month' => $previousMonthDate->month,
         ]));
 
-        // 月の年月が表示されていることを確認（例：2025/10）
+        // 月の年月が表示されていることを確認
         $expectedMonthLabel = $previousMonthDate->format('Y/m');
         $response->assertStatus(200);
         $response->assertSee($expectedMonthLabel);
@@ -100,7 +100,7 @@ class AttendanceListTest extends TestCase
         // ユーザーログイン
         $this->actingAs($this->user);
 
-        // 翌月の日付を取得（例：2025/12/15）
+        // 翌月の日付を取得
         $nextMonthDate = Carbon::now()->addMonth()->day(15);
 
         // 勤怠一覧ページに翌月指定でアクセス
@@ -109,7 +109,7 @@ class AttendanceListTest extends TestCase
             'month' => $nextMonthDate->month,
         ]));
 
-        // 翌月の年月が表示されていることを確認（例：2025/12）
+        // 翌月の年月が表示されていることを確認
         $expectedMonthLabel = $nextMonthDate->format('Y/m');
         $response->assertStatus(200);
         $response->assertSee($expectedMonthLabel);
