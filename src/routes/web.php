@@ -98,8 +98,8 @@ Route::get('/admin/attendance/monthly_csv', [AdminAttendanceController::class, '
     ->name('admin.attendance.monthly_csv');
 
 Route::middleware(['auth:admin'])->group(function () {
-    Route::get('/admin/stamp_correction_request/list', [AdminRequestController::class, 'index'])->name('admin.request.index');
-    Route::get('/admin/stamp_correction_request/list/{id}', [AdminRequestController::class, 'show'])->name('admin.request.show');
+    Route::get('/stamp_correction_request/list', [AdminRequestController::class, 'index'])->name('admin.request.index');
+    Route::get('/stamp_correction_request/approve/{id}', [AdminRequestController::class, 'show'])->name('admin.request.show');
 });
 
 Route::middleware(['web', 'auth:admin'])->group(function () {
