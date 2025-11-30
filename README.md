@@ -96,6 +96,22 @@ php artisan migrate:fresh --env=testing
 php artisan config:clear
 ```
 
+## 画面パス変更について
+
+申請一覧画面の URL を以下のように変更しました。
+
+- 一般ユーザー用
+  **旧:** `/stamp_correction_request/list`
+  **新:** `/stamp_correction_request/list` （変更なし）
+
+- 管理者用
+  **旧:** `/stamp_correction_request/list`
+  **新:** `/admin/stamp_correction_request/list`
+
+### 変更理由
+管理者画面と一般ユーザー画面を明確に区別するため、管理者用のパスに
+`admin` プレフィックスを付与しました。
+
 ## 使用技術(実行環境)
 
 - PHP 8.1.33
